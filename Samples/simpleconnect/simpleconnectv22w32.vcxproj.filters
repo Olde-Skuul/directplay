@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\common\dpconnect.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dpmacros.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="source\windows\resource.h">
+      <Filter>source\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="source\winmain.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClCompile Include="..\common\dpconnect.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="source\winmain.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ResourceCompile Include="source\windows\winmain.rc">
+      <Filter>source\windows</Filter>
+    </ResourceCompile>
+    <Image Include="source\windows\directx.ico">
+      <Filter>source\windows</Filter>
+    </Image>
+    <Filter Include="common">
+      <UniqueIdentifier>432CF5C2-2AE4-3AEE-83A2-1FB5C4525CD4</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>00D0C35A-FB75-39A1-9B7C-89EB08EF3CE4</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\windows">
+      <UniqueIdentifier>FD497B13-2446-3196-BDC6-A239A63352F2</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
