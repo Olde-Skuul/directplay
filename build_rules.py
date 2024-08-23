@@ -80,8 +80,9 @@ def library_settings(configuration):
             lib_dir = lib_dir + "\\x64"
 
         # Add in the real library file and directory for Windows
-        configuration.libraries_list.append("dplayx.lib")
-        configuration.library_folders_list.insert(0, lib_dir)
+        if not getattr(configuration, "directplay_headers_only", False):
+            configuration.libraries_list.append("dplayx.lib")
+            configuration.library_folders_list.insert(0, lib_dir)
 
         # Include headers, however Codewarrior uses the library folder
         if configuration.project.solution.ide.is_codewarrior():
