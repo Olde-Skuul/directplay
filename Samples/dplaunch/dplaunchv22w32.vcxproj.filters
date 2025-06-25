@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="source\windows\resource.h">
+      <Filter>source\windows</Filter>
+    </ClInclude>
+    <ClCompile Include="source\dplaunch.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ResourceCompile Include="source\windows\dplaunch.rc">
+      <Filter>source\windows</Filter>
+    </ResourceCompile>
+    <Image Include="source\windows\directx.ico">
+      <Filter>source\windows</Filter>
+    </Image>
+    <Filter Include="source">
+      <UniqueIdentifier>C18FDFAA-7225-38EF-90B7-FD4FBC4809EC</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\windows">
+      <UniqueIdentifier>412360D5-2EE2-3C20-B399-FE3E51108C02</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

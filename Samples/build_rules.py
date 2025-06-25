@@ -129,7 +129,7 @@ def project_settings(project):
     project.source_folders_list.append("source\\windows")
 
     # Add in the folder with the common code
-    if project.name not in ("dpchat",):
+    if project.name not in ("dpchat", "dplaunch"):
         project.source_folders_list.append("..\\common")
 
     # Disable Visual Studio warnings
