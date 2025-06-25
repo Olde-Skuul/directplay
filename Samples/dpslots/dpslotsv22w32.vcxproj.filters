@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="source\dpslots.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\windows\resource.h">
+      <Filter>source\windows</Filter>
+    </ClInclude>
+    <ClCompile Include="source\client.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\dialog.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\dpslots.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\lobby.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\server.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ResourceCompile Include="source\windows\dpslots.rc">
+      <Filter>source\windows</Filter>
+    </ResourceCompile>
+    <Filter Include="source">
+      <UniqueIdentifier>2F220864-339B-3D24-BDC5-1B982519B3A5</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\windows">
+      <UniqueIdentifier>3F980D29-5E46-3143-878C-F55003E827E0</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

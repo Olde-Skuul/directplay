@@ -1,0 +1,18 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dpslots", "dpslotsvc7w32.vcproj", "{DE8C3B12-36CD-34F8-B2DE-BF1D21CFF756}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Release_LTCG = Release_LTCG
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{DE8C3B12-36CD-34F8-B2DE-BF1D21CFF756}.Release_LTCG.ActiveCfg = Release_LTCG|Win32
+		{DE8C3B12-36CD-34F8-B2DE-BF1D21CFF756}.Release_LTCG.Build.0 = Release_LTCG|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

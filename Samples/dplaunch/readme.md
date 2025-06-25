@@ -1,7 +1,6 @@
 # DPLAUNCH
 
-Sample application to demonstrate how to launch a DirectPlay application using the IDirectPlayLobby::RunApplication function. You can also use the ``BELLHOP`` sample lobby client application and the sample lobby server to do
-this.
+Sample application to demonstrate how to launch a DirectPlay application using the ``IDirectPlayLobby::RunApplication`` function. You can also use the ``BELLHOP`` sample lobby client application and the sample lobby server to do this.
 
 Note: MSVC may include older versions of the DirectX header files and libraries. In order to avoid compile errors, make sure the path to the latest DirectX header files and libraries are listed BEFORE the MSVC header files and libraries through the Tools -> Options -> Directories menu.
 
