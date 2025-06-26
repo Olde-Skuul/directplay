@@ -299,7 +299,7 @@ static HRESULT SendChatMessage(HWND hWnd, LPDPLAYINFO lpDPInfo)
 
 			// create space for message plus string (string length included in
 			// message header)
-			dwChatMessageSize = sizeof(MSG_CHATSTRING) + lstrlen(lpszChatStr);
+			dwChatMessageSize = sizeof(MSG_CHATSTRING) + strlen(lpszChatStr);
 			lpChatMessage =
 				(LPMSG_CHATSTRING)GlobalAllocPtr(GHND, dwChatMessageSize);
 			if (lpChatMessage == NULL) {
@@ -328,7 +328,7 @@ static HRESULT SendChatMessage(HWND hWnd, LPDPLAYINFO lpDPInfo)
 	if (lpChatMessage) {
 		GlobalFreePtr(lpChatMessage);
 	}
-	SetDlgItemText(hWnd, IDC_SENDEDIT, "");
+	SetDlgItemTextA(hWnd, IDC_SENDEDIT, "");
 
 	return hr;
 }
@@ -407,7 +407,7 @@ static void HandleSystemMessage(LPDPLAYINFO lpDPInfo, LPDPMSG_GENERIC lpMsg,
 
 		// allocate space for string
 		lpszStr = (LPSTR)GlobalAllocPtr(
-			GHND, lstrlen(szDisplayFormat) + strlen(lpszPlayerName) + 1);
+			GHND, strlen(szDisplayFormat) + strlen(lpszPlayerName) + 1);
 		if (lpszStr == NULL) {
 			break;
 		}
@@ -430,7 +430,7 @@ static void HandleSystemMessage(LPDPLAYINFO lpDPInfo, LPDPMSG_GENERIC lpMsg,
 
 		// allocate space for string
 		lpszStr = (LPSTR)GlobalAllocPtr(
-			GHND, lstrlen(szDisplayFormat) + strlen(lpszPlayerName) + 1);
+			GHND, strlen(szDisplayFormat) + strlen(lpszPlayerName) + 1);
 		if (lpszStr == NULL) {
 			break;
 		}
@@ -711,8 +711,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /* hPrevInstance */,
 		if (SUCCEEDED(hr)) {
 
 			// show the chat window
-			iResult = DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATDIALOG),
-				NULL, (DLGPROC)ChatWndProc, (LPARAM)&DPInfo);
+			iResult =
+				DialogBoxParamA(hInstance, MAKEINTRESOURCE(IDD_CHATDIALOG),
+					NULL, (DLGPROC)ChatWndProc, (LPARAM)&DPInfo);
 		}
 	}
 	// shut down the connection

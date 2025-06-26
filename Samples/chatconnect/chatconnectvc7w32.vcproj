@@ -13,8 +13,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release_LTCG|Win32"
-			OutputDirectory="bin\"
-			IntermediateDirectory="temp\chatconnectvc7w32ltc\"
+			OutputDirectory="$(ProjectDir)bin\"
+			IntermediateDirectory="$(ProjectDir)temp\chatconnectvc7w32ltc\"
 			ConfigurationType="1"
 			WholeProgramOptimization="TRUE">
 			<Tool
@@ -26,7 +26,6 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				EnableFiberSafeOptimizations="TRUE"
-				WholeProgramOptimization="TRUE"
 				OptimizeForProcessor="3"
 				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="..\common;source;source\windows;..\..\Include"
@@ -48,7 +47,6 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="Kernel32.lib Gdi32.lib Shell32.lib Ole32.lib User32.lib Advapi32.lib version.lib Ws2_32.lib Comctl32.lib WinMM.lib dplayx.lib"
 				OutputFile="&quot;$(OutDir)chatconnectvc7w32ltc.exe&quot;"
-				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\Lib\x86"
 				GenerateDebugInformation="FALSE"
 				ProgramDatabaseFile="&quot;$(OutDir)$(TargetName).pdb&quot;"
@@ -96,21 +94,21 @@
 		<Filter
 			Name="source">
 			<File
-				RelativePath="source\winmain.cpp">
+				RelativePath=".\source\winmain.cpp">
 			</File>
 			<File
-				RelativePath="source\winmain.h">
+				RelativePath=".\source\winmain.h">
 			</File>
 			<Filter
 				Name="windows">
 				<File
-					RelativePath="source\windows\directx.ico">
+					RelativePath=".\source\windows\directx.ico">
 				</File>
 				<File
-					RelativePath="source\windows\resource.h">
+					RelativePath=".\source\windows\resource.h">
 				</File>
 				<File
-					RelativePath="source\windows\winmain.rc">
+					RelativePath=".\source\windows\winmain.rc">
 				</File>
 			</Filter>
 		</Filter>

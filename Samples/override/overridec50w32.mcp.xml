@@ -84,16 +84,6 @@
 				<SETTING><NAME>UserSearchPaths</NAME>
 					<SETTING>
 						<SETTING><NAME>SearchPath</NAME>
-							<SETTING><NAME>Path</NAME><VALUE>..\common</VALUE></SETTING>
-							<SETTING><NAME>PathFormat</NAME><VALUE>Windows</VALUE></SETTING>
-							<SETTING><NAME>PathRoot</NAME><VALUE>Project</VALUE></SETTING>
-						</SETTING>
-						<SETTING><NAME>Recursive</NAME><VALUE>false</VALUE></SETTING>
-						<SETTING><NAME>FrameworkPath</NAME><VALUE>false</VALUE></SETTING>
-						<SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
-					</SETTING>
-					<SETTING>
-						<SETTING><NAME>SearchPath</NAME>
 							<SETTING><NAME>Path</NAME><VALUE>source</VALUE></SETTING>
 							<SETTING><NAME>PathFormat</NAME><VALUE>Windows</VALUE></SETTING>
 							<SETTING><NAME>PathRoot</NAME><VALUE>Project</VALUE></SETTING>
@@ -220,7 +210,7 @@
 				<SETTING><NAME>MWWarning_C_warn_notinlined</NAME><VALUE>0</VALUE></SETTING>
 				<SETTING><NAME>MWWarning_C_warningerrors</NAME><VALUE>0</VALUE></SETTING>
 				<SETTING><NAME>MWProject_X86_type</NAME><VALUE>Application</VALUE></SETTING>
-				<SETTING><NAME>MWProject_X86_outfile</NAME><VALUE>stagedconnectc50w32rel.exe</VALUE></SETTING>
+				<SETTING><NAME>MWProject_X86_outfile</NAME><VALUE>overridec50w32rel.exe</VALUE></SETTING>
 				<SETTING><NAME>MWCodeGen_X86_processor</NAME><VALUE>PentiumIV</VALUE></SETTING>
 				<SETTING><NAME>MWCodeGen_X86_use_extinst</NAME><VALUE>1</VALUE></SETTING>
 				<SETTING><NAME>MWCodeGen_X86_extinst_mmx</NAME><VALUE>0</VALUE></SETTING>
@@ -283,35 +273,14 @@
 			<FILELIST>
 				<FILE>
 					<PATHTYPE>Name</PATHTYPE>
-					<PATH>dpconnect.cpp</PATH>
+					<PATH>override.cpp</PATH>
 					<PATHFORMAT>Windows</PATHFORMAT>
 					<FILEKIND>Text</FILEKIND>
 					<FILEFLAGS></FILEFLAGS>
 				</FILE>
 				<FILE>
 					<PATHTYPE>Name</PATHTYPE>
-					<PATH>dpconnect.h</PATH>
-					<PATHFORMAT>Windows</PATHFORMAT>
-					<FILEKIND>Text</FILEKIND>
-					<FILEFLAGS></FILEFLAGS>
-				</FILE>
-				<FILE>
-					<PATHTYPE>Name</PATHTYPE>
-					<PATH>dpmacros.h</PATH>
-					<PATHFORMAT>Windows</PATHFORMAT>
-					<FILEKIND>Text</FILEKIND>
-					<FILEFLAGS></FILEFLAGS>
-				</FILE>
-				<FILE>
-					<PATHTYPE>Name</PATHTYPE>
-					<PATH>dpstage.cpp</PATH>
-					<PATHFORMAT>Windows</PATHFORMAT>
-					<FILEKIND>Text</FILEKIND>
-					<FILEFLAGS></FILEFLAGS>
-				</FILE>
-				<FILE>
-					<PATHTYPE>Name</PATHTYPE>
-					<PATH>dpstage.h</PATH>
+					<PATH>override.rc</PATH>
 					<PATHFORMAT>Windows</PATHFORMAT>
 					<FILEKIND>Text</FILEKIND>
 					<FILEFLAGS></FILEFLAGS>
@@ -319,27 +288,6 @@
 				<FILE>
 					<PATHTYPE>Name</PATHTYPE>
 					<PATH>resource.h</PATH>
-					<PATHFORMAT>Windows</PATHFORMAT>
-					<FILEKIND>Text</FILEKIND>
-					<FILEFLAGS></FILEFLAGS>
-				</FILE>
-				<FILE>
-					<PATHTYPE>Name</PATHTYPE>
-					<PATH>winmain.cpp</PATH>
-					<PATHFORMAT>Windows</PATHFORMAT>
-					<FILEKIND>Text</FILEKIND>
-					<FILEFLAGS></FILEFLAGS>
-				</FILE>
-				<FILE>
-					<PATHTYPE>Name</PATHTYPE>
-					<PATH>winmain.h</PATH>
-					<PATHFORMAT>Windows</PATHFORMAT>
-					<FILEKIND>Text</FILEKIND>
-					<FILEFLAGS></FILEFLAGS>
-				</FILE>
-				<FILE>
-					<PATHTYPE>Name</PATHTYPE>
-					<PATH>winmain.rc</PATH>
 					<PATHFORMAT>Windows</PATHFORMAT>
 					<FILEKIND>Text</FILEKIND>
 					<FILEFLAGS></FILEFLAGS>
@@ -432,47 +380,17 @@
 			<LINKORDER>
 				<FILEREF>
 					<PATHTYPE>Name</PATHTYPE>
-					<PATH>dpconnect.cpp</PATH>
+					<PATH>override.cpp</PATH>
 					<PATHFORMAT>Windows</PATHFORMAT>
 				</FILEREF>
 				<FILEREF>
 					<PATHTYPE>Name</PATHTYPE>
-					<PATH>dpconnect.h</PATH>
-					<PATHFORMAT>Windows</PATHFORMAT>
-				</FILEREF>
-				<FILEREF>
-					<PATHTYPE>Name</PATHTYPE>
-					<PATH>dpmacros.h</PATH>
-					<PATHFORMAT>Windows</PATHFORMAT>
-				</FILEREF>
-				<FILEREF>
-					<PATHTYPE>Name</PATHTYPE>
-					<PATH>dpstage.cpp</PATH>
-					<PATHFORMAT>Windows</PATHFORMAT>
-				</FILEREF>
-				<FILEREF>
-					<PATHTYPE>Name</PATHTYPE>
-					<PATH>dpstage.h</PATH>
+					<PATH>override.rc</PATH>
 					<PATHFORMAT>Windows</PATHFORMAT>
 				</FILEREF>
 				<FILEREF>
 					<PATHTYPE>Name</PATHTYPE>
 					<PATH>resource.h</PATH>
-					<PATHFORMAT>Windows</PATHFORMAT>
-				</FILEREF>
-				<FILEREF>
-					<PATHTYPE>Name</PATHTYPE>
-					<PATH>winmain.cpp</PATH>
-					<PATHFORMAT>Windows</PATHFORMAT>
-				</FILEREF>
-				<FILEREF>
-					<PATHTYPE>Name</PATHTYPE>
-					<PATH>winmain.h</PATH>
-					<PATHFORMAT>Windows</PATHFORMAT>
-				</FILEREF>
-				<FILEREF>
-					<PATHTYPE>Name</PATHTYPE>
-					<PATH>winmain.rc</PATH>
 					<PATHFORMAT>Windows</PATHFORMAT>
 				</FILEREF>
 				<FILEREF>
@@ -619,63 +537,25 @@
 				<PATHFORMAT>Windows</PATHFORMAT>
 			</FILEREF>
 		</GROUP>
-		<GROUP><NAME>common</NAME>
-			<FILEREF>
-				<TARGETNAME>Release</TARGETNAME>
-				<PATHTYPE>Name</PATHTYPE>
-				<PATH>dpconnect.cpp</PATH>
-				<PATHFORMAT>Windows</PATHFORMAT>
-			</FILEREF>
-			<FILEREF>
-				<TARGETNAME>Release</TARGETNAME>
-				<PATHTYPE>Name</PATHTYPE>
-				<PATH>dpconnect.h</PATH>
-				<PATHFORMAT>Windows</PATHFORMAT>
-			</FILEREF>
-			<FILEREF>
-				<TARGETNAME>Release</TARGETNAME>
-				<PATHTYPE>Name</PATHTYPE>
-				<PATH>dpmacros.h</PATH>
-				<PATHFORMAT>Windows</PATHFORMAT>
-			</FILEREF>
-		</GROUP>
 		<GROUP><NAME>source</NAME>
 			<GROUP><NAME>windows</NAME>
+				<FILEREF>
+					<TARGETNAME>Release</TARGETNAME>
+					<PATHTYPE>Name</PATHTYPE>
+					<PATH>override.rc</PATH>
+					<PATHFORMAT>Windows</PATHFORMAT>
+				</FILEREF>
 				<FILEREF>
 					<TARGETNAME>Release</TARGETNAME>
 					<PATHTYPE>Name</PATHTYPE>
 					<PATH>resource.h</PATH>
 					<PATHFORMAT>Windows</PATHFORMAT>
 				</FILEREF>
-				<FILEREF>
-					<TARGETNAME>Release</TARGETNAME>
-					<PATHTYPE>Name</PATHTYPE>
-					<PATH>winmain.rc</PATH>
-					<PATHFORMAT>Windows</PATHFORMAT>
-				</FILEREF>
 			</GROUP>
 			<FILEREF>
 				<TARGETNAME>Release</TARGETNAME>
 				<PATHTYPE>Name</PATHTYPE>
-				<PATH>dpstage.cpp</PATH>
-				<PATHFORMAT>Windows</PATHFORMAT>
-			</FILEREF>
-			<FILEREF>
-				<TARGETNAME>Release</TARGETNAME>
-				<PATHTYPE>Name</PATHTYPE>
-				<PATH>dpstage.h</PATH>
-				<PATHFORMAT>Windows</PATHFORMAT>
-			</FILEREF>
-			<FILEREF>
-				<TARGETNAME>Release</TARGETNAME>
-				<PATHTYPE>Name</PATHTYPE>
-				<PATH>winmain.cpp</PATH>
-				<PATHFORMAT>Windows</PATHFORMAT>
-			</FILEREF>
-			<FILEREF>
-				<TARGETNAME>Release</TARGETNAME>
-				<PATHTYPE>Name</PATHTYPE>
-				<PATH>winmain.h</PATH>
+				<PATH>override.cpp</PATH>
 				<PATHFORMAT>Windows</PATHFORMAT>
 			</FILEREF>
 		</GROUP>

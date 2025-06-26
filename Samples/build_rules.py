@@ -38,8 +38,24 @@ GENERIC = True
 # Overrides PROCESS_PROJECT_FILES
 CLEANME_PROCESS_PROJECT_FILES = False
 
+# Create windows projects for Watcom, VS 2022, and Codewarrior
+MAKEPROJECTS = (
+    {"platform": "win32",
+     "ide": ("vs2003", "vs2022"),
+     "type": "app",
+     "configuration": "Release_LTCG"},
+    {"platform": "win32",
+     "ide": ("watcom", "codewarrior"),
+     "type": "app",
+     "configuration": "Release"
+     }
+)
+
 # Check if git is around
 _GIT_FOUND = None
+
+# List of projects that don't use common code
+_NO_COMMON = ("dpchat", "dplaunch", "dpslots", "override")
 
 ########################################
 
@@ -129,7 +145,7 @@ def project_settings(project):
     project.source_folders_list.append("source\\windows")
 
     # Add in the folder with the common code
-    if project.name not in ("dpchat", "dplaunch", "dpslots"):
+    if project.name not in _NO_COMMON:
         project.source_folders_list.append("..\\common")
 
     # Disable Visual Studio warnings
