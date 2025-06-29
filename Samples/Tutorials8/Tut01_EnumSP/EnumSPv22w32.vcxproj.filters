@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="source\EnumSP.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <Filter Include="source">
+      <UniqueIdentifier>E0D2F63B-83B4-3413-B01E-B5DA050F92DF</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
