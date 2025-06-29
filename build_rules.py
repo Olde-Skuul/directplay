@@ -26,6 +26,10 @@ from burger import environment_root
 # Can be overridden above
 PROCESS_PROJECT_FILES = False
 
+# ``cleanme`` will clean the listed folders using their rules before cleaning
+# this folder. Overrides DEPENDENCIES
+# Clean all the samples.
+CLEANME_DEPENDENCIES = ["Samples"]
 
 ########################################
 

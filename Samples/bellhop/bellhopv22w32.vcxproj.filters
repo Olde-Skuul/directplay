@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="source\bellhop.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cgrptree.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\connset.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\dialog.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\windows\resource.h">
+      <Filter>source\windows</Filter>
+    </ClInclude>
+    <ClCompile Include="source\bellhop.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cgrptree.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\connset.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\dialog.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ResourceCompile Include="source\windows\bellhop.rc">
+      <Filter>source\windows</Filter>
+    </ResourceCompile>
+    <Image Include="source\windows\bellhop.ico">
+      <Filter>source\windows</Filter>
+    </Image>
+    <Image Include="source\windows\bitmap1.bmp">
+      <Filter>source\windows</Filter>
+    </Image>
+    <Filter Include="source">
+      <UniqueIdentifier>56A6B3D2-6DD3-398A-9F55-FA903D4D2BAF</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\windows">
+      <UniqueIdentifier>7E75F1B8-43A7-3E3A-80A6-961480ADC512</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

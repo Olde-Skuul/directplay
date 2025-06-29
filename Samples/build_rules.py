@@ -38,6 +38,21 @@ GENERIC = True
 # Overrides PROCESS_PROJECT_FILES
 CLEANME_PROCESS_PROJECT_FILES = False
 
+# ``cleanme`` will clean the listed folders using their rules before cleaning
+# this folder. Overrides DEPENDENCIES
+# Clean all the samples
+CLEANME_DEPENDENCIES = [
+    "bellhop",
+    "chatconnect",
+    "dpchat",
+    "dplaunch",
+    "dpslots",
+    "duel",
+    "override",
+    "simpleconnect",
+    "stagedconnect"
+]
+
 # Create windows projects for Watcom, VS 2022, and Codewarrior
 MAKEPROJECTS = (
     {"platform": "win32",
@@ -55,7 +70,13 @@ MAKEPROJECTS = (
 _GIT_FOUND = None
 
 # List of projects that don't use common code
-_NO_COMMON = ("dpchat", "dplaunch", "dpslots", "override")
+_NO_COMMON = (
+    "bellhop",
+    "dpchat",
+    "dplaunch",
+    "dpslots",
+    "override"
+)
 
 ########################################
 
