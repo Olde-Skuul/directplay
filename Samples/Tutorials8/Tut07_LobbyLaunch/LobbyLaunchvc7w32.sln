@@ -1,0 +1,18 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LobbyLaunch", "LobbyLaunchvc7w32.vcproj", "{FE8E78B8-C408-3AFA-A751-80633E38F88A}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Release_LTCG = Release_LTCG
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{FE8E78B8-C408-3AFA-A751-80633E38F88A}.Release_LTCG.ActiveCfg = Release_LTCG|Win32
+		{FE8E78B8-C408-3AFA-A751-80633E38F88A}.Release_LTCG.Build.0 = Release_LTCG|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

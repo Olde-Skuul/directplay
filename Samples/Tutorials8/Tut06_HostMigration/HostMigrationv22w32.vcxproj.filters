@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="source\HostMigration.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <Filter Include="source">
+      <UniqueIdentifier>23E172A1-1672-331D-983F-EB6B58EC99FA</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

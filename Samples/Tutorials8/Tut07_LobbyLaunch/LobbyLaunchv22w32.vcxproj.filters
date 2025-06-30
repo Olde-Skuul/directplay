@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="source\LobbyLaunch.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <Filter Include="source">
+      <UniqueIdentifier>1E52348C-97C8-382D-90F4-8767D06707E5</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

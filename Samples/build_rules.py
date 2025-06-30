@@ -69,13 +69,11 @@ MAKEPROJECTS = (
 # Check if git is around
 _GIT_FOUND = None
 
-# List of projects that don't use common code
-_NO_COMMON = (
-    "bellhop",
-    "dpchat",
-    "dplaunch",
-    "dpslots",
-    "override"
+# List of projects that use common code
+_ADD_COMMON = (
+    "chatconnect",
+    "duel",
+    "simpleconnect"
 )
 
 ########################################
@@ -166,7 +164,7 @@ def project_settings(project):
     project.source_folders_list.append("source\\windows")
 
     # Add in the folder with the common code
-    if project.name not in _NO_COMMON:
+    if project.name in _ADD_COMMON:
         project.source_folders_list.append("..\\common")
 
     # Disable Visual Studio warnings
