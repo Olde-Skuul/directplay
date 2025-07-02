@@ -16,8 +16,15 @@
 #if _MSC_VER >= 1200
 #pragma warning(push)
 #endif
+#if defined(_MSC_VER)
 #pragma warning(disable:4201)
-
+#elif defined(__BORLANDC__)
+/* Enums are int -b */
+/* Alignment 8 -a8 */
+/* Calling convention cdecl -pc */
+/* Borland extensions -A- */
+#pragma option push -b -a8 -pc -A- /*P_O_Push*/
+#endif
 
 /*
  * Some types
@@ -479,7 +486,11 @@ typedef const DPACCOUNTDESC FAR *LPCDPACCOUNTDESC;
  * LPCGUID
  * A constant pointer to a guid
  */
+
+#ifndef __LPCGUID_DEFINED__
+#define __LPCGUID_DEFINED__
 typedef const GUID FAR *LPCGUID;
+#endif
 
 /*
  * DPLCONNECTION
@@ -2146,8 +2157,10 @@ DEFINE_GUID(IID_IDirectPlay, 0x5454e9a0, 0xdb65, 0x11ce, 0x92, 0x1c, 0x00, 0xaa,
 /* restore warning settings */
 #if _MSC_VER >= 1200
 #pragma warning(pop)
-#else
+#elif defined(_MSC_VER)
 #pragma warning(default:4201)
+#elif defined(__BORLANDC__)
+#pragma option pop /*P_O_Pop*/
 #endif
 
 #endif

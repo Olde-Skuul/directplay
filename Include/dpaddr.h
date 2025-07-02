@@ -11,13 +11,11 @@
 
 #include <ole2.h>	   // for DECLARE_INTERFACE_ and HRESULT
 
+#include <dplay8.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include "dplay8.h"
-
-
 
 /****************************************************************************
  *
@@ -388,5 +386,3 @@ DECLARE_INTERFACE_(IDirectPlay8AddressIP,IUnknown)
 #endif
 
 #endif
-
-

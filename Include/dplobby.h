@@ -8,10 +8,21 @@
 #ifndef __DPLOBBY_INCLUDED__
 #define __DPLOBBY_INCLUDED__
 
-#include "dplay.h"
+#include <dplay.h>
 
 /* avoid warnings at Level 4 */
+#if _MSC_VER >= 1200
+#pragma warning(push)
+#endif
+#if defined(_MSC_VER)
 #pragma warning(disable:4201)
+#elif defined(__BORLANDC__)
+/* Enums are int -b */
+/* Alignment 8 -a8 */
+/* Calling convention cdecl -pc */
+/* Borland extensions -A- */
+#pragma option push -b -a8 -pc -A- /*P_O_Push*/
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -847,7 +858,14 @@ DEFINE_GUID(DPAID_ComPort,
 }
 #endif /* __cplusplus */
 
+/* restore warning settings */
+#if _MSC_VER >= 1200
+#pragma warning(pop)
+#elif defined(_MSC_VER)
 #pragma warning(default:4201)
+#elif defined(__BORLANDC__)
+#pragma option pop /*P_O_Pop*/
+#endif
 
 #endif /* __DPLOBBY_INCLUDED__ */
 

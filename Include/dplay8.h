@@ -12,7 +12,7 @@
 
 #include <ole2.h>	   // for DECLARE_INTERFACE_ and HRESULT
 
-#include "dpaddr.h"
+#include <dpaddr.h>
 
 
 #ifdef __cplusplus
