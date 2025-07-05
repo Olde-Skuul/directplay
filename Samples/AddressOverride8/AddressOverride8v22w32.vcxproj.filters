@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\common\dpdialogs.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dpmacros.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dputils.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dxutil.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="source\windows\resource.h">
+      <Filter>source\windows</Filter>
+    </ClInclude>
+    <ClCompile Include="..\common\dpdialogs.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\dputils.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\dxutil.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="source\AddressOverride.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ResourceCompile Include="source\windows\AddressOverride.rc">
+      <Filter>source\windows</Filter>
+    </ResourceCompile>
+    <Image Include="..\common\directx.ico">
+      <Filter>common</Filter>
+    </Image>
+    <Filter Include="common">
+      <UniqueIdentifier>8837C7B2-DB95-3919-8CFD-2A5EC85F0C48</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>CDF2FB3E-082B-3746-8C9F-1804D54C85E6</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\windows">
+      <UniqueIdentifier>DD4E2080-DD9F-3420-A2A7-2D857367F47C</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

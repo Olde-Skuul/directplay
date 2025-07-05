@@ -4,7 +4,7 @@ Directplay is stored here for historical reasons. It should never be used for fu
 
 ## Don't use Directplay for any new applications
 
-You've been warned. Also, only a 32 bit Intel implementation exists of Directplay. Even though a 64 bit library was provided by the source SDK, to date, no 64 bit Intel runtime has been released by Microsoft. DirectPlayVoice is not available on Windows 8 or higher, so all code that relies on DirectPlayVoice will not run at all on Windows 8 or higher.
+You've been warned. Also, only a 32 bit Intel implementation exists of Directplay. Even though a 64 bit library was provided by the source SDK, to date, no 64 bit Intel runtime has been released by Microsoft. ``DirectPlayVoice`` is not available on Windows 8 or higher, so all code that relies on ``DirectPlayVoice`` will not run at all on Windows 8 or higher.
 
 ## Source of the SDK
 
