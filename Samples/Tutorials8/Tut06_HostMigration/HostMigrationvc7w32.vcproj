@@ -28,7 +28,7 @@
 				EnableFiberSafeOptimizations="TRUE"
 				OptimizeForProcessor="3"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories="source;..\..\..\Include"
+				AdditionalIncludeDirectories="..\..\common;source;..\..\..\Include"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32_LEAN_AND_MEAN;WIN32;_CONSOLE;IDIRECTPLAY2_OR_GREATER;_CRT_NONSTDC_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS"
 				StringPooling="TRUE"
 				ExceptionHandling="FALSE"
@@ -79,6 +79,12 @@
 	<References>
 	</References>
 	<Files>
+		<Filter
+			Name="common">
+			<File
+				RelativePath="..\..\common\dpmacros.h">
+			</File>
+		</Filter>
 		<Filter
 			Name="source">
 			<File

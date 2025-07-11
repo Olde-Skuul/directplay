@@ -7,6 +7,12 @@
     <ClInclude Include="..\common\dpmacros.h">
       <Filter>common</Filter>
     </ClInclude>
+    <ClInclude Include="..\common\dputils.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dxutil.h">
+      <Filter>common</Filter>
+    </ClInclude>
     <ClInclude Include="source\dpstage.h">
       <Filter>source</Filter>
     </ClInclude>
@@ -19,6 +25,12 @@
     <ClCompile Include="..\common\dpconnect.cpp">
       <Filter>common</Filter>
     </ClCompile>
+    <ClCompile Include="..\common\dputils.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\dxutil.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
     <ClCompile Include="source\dpstage.cpp">
       <Filter>source</Filter>
     </ClCompile>
@@ -28,9 +40,6 @@
     <ResourceCompile Include="source\windows\winmain.rc">
       <Filter>source\windows</Filter>
     </ResourceCompile>
-    <Image Include="source\windows\directx.ico">
-      <Filter>source\windows</Filter>
-    </Image>
     <Filter Include="common">
       <UniqueIdentifier>77E26CDF-D8B9-37FF-9DCA-3E7B382F61AD</UniqueIdentifier>
     </Filter>

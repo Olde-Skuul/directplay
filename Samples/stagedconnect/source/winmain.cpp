@@ -25,6 +25,7 @@
 #include "winmain.h"
 #include "dpconnect.h"
 #include "dpmacros.h"
+#include "dputils.h"
 #include "dpstage.h"
 #include "resource.h"
 #include <stdio.h>
@@ -35,7 +36,7 @@
 
 #define DPLAY_SAMPLE_KEY "Software\\Microsoft\\DirectX DirectPlay Samples"
 
-char g_strAppName[256] = "StagedConnect Greeting Game";
+const char g_strAppName[] = "StagedConnect Greeting Game";
 
 // This GUID allows DirectPlay to find other instances of the same game on
 // the network.  So it must be unique for every game, and the same for
@@ -530,38 +531,6 @@ HRESULT DisplayPlayerWave(HWND hDlg, DPID idFrom)
 	sprintf(szWaveMessage, "%s waved to you, %s!", pdpname->lpszShortNameA,
 		g_strLocalPlayerName);
 	MessageBoxA(hDlg, szWaveMessage, "The Greeting Game", MB_OK);
-
-	return S_OK;
-}
-
-//-----------------------------------------------------------------------------
-// Name: ReadRegKey()
-// Desc: Read a registry key
-//-----------------------------------------------------------------------------
-HRESULT ReadRegKey(
-	HKEY hKey, char* strName, char* strValue, DWORD dwLength, char* strDefault)
-{
-	DWORD dwType;
-
-	LONG bResult = RegQueryValueExA(
-		hKey, strName, 0, &dwType, (LPBYTE)strValue, &dwLength);
-	if (bResult != ERROR_SUCCESS) {
-		strcpy(strValue, strDefault);
-	}
-	return S_OK;
-}
-
-//-----------------------------------------------------------------------------
-// Name: WriteRegKey()
-// Desc: Writes a registry key
-//-----------------------------------------------------------------------------
-HRESULT WriteRegKey(HKEY hKey, char* strName, char* strValue)
-{
-	LONG bResult = RegSetValueExA(
-		hKey, strName, 0, REG_SZ, (LPBYTE)strValue, strlen(strValue) + 1);
-	if (bResult != ERROR_SUCCESS) {
-		return E_FAIL;
-	}
 
 	return S_OK;
 }

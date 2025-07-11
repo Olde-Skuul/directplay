@@ -152,7 +152,8 @@ TEMP_DIR = temp\dplaunch$(BASE_SUFFIX)
 # SOURCE_DIRS = Work directories for the source code
 #
 
-SOURCE_DIRS =source
+SOURCE_DIRS =../common
+SOURCE_DIRS +=;source
 SOURCE_DIRS +=;source/windows
 
 #
@@ -237,7 +238,8 @@ RC=WRC -ad -r -q -d__WATCOM__=1 -i="$(INCLUDE_DIRS)"
 # Object files to work with for the project
 #
 
-OBJS= $(A)/dplaunch.obj
+OBJS= $(A)/dpdialogs.obj &
+	$(A)/dplaunch.obj
 
 #
 # Resource files to work with for the project

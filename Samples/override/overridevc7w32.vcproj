@@ -28,7 +28,7 @@
 				EnableFiberSafeOptimizations="TRUE"
 				OptimizeForProcessor="3"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories="source;source\windows;..\..\Include"
+				AdditionalIncludeDirectories="..\common;source;source\windows;..\..\Include"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;WIN32_LEAN_AND_MEAN;WIN32;IDIRECTPLAY2_OR_GREATER;_CRT_NONSTDC_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS"
 				StringPooling="TRUE"
 				ExceptionHandling="FALSE"
@@ -80,15 +80,24 @@
 	</References>
 	<Files>
 		<Filter
+			Name="common">
+			<File
+				RelativePath="..\common\dpdialogs.cpp">
+			</File>
+			<File
+				RelativePath="..\common\dpdialogs.h">
+			</File>
+			<File
+				RelativePath="..\common\dpmacros.h">
+			</File>
+		</Filter>
+		<Filter
 			Name="source">
 			<File
 				RelativePath=".\source\override.cpp">
 			</File>
 			<Filter
 				Name="windows">
-				<File
-					RelativePath=".\source\windows\directx.ico">
-				</File>
 				<File
 					RelativePath=".\source\windows\override.rc">
 				</File>

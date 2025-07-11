@@ -8,6 +8,7 @@
 #include "connset.h"
 #include "Bellhop.h"
 #include "dialog.h"
+#include "dpdialogs.h"
 
 // Disable a warning on Windows calls for CodeWarrior
 #if __MWERKS__

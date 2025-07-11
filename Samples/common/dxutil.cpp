@@ -8,7 +8,22 @@
 //-----------------------------------------------------------------------------
 
 #include "DXUtil.h"
+
+// Older compilers complain about mmsystem.h
+#if defined(_MSC_VER)
+#pragma warning(push)
+// nameless struct/union
+#pragma warning(disable : 4201)
+#endif
+
+// Depends on windows.h
 #include <mmsystem.h>
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif
+
+
 #include <stdarg.h>
 #include <stdio.h>
 #include <tchar.h>

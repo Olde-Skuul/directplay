@@ -304,6 +304,34 @@
 				</FILE>
 				<FILE>
 					<PATHTYPE>Name</PATHTYPE>
+					<PATH>dputils.cpp</PATH>
+					<PATHFORMAT>Windows</PATHFORMAT>
+					<FILEKIND>Text</FILEKIND>
+					<FILEFLAGS></FILEFLAGS>
+				</FILE>
+				<FILE>
+					<PATHTYPE>Name</PATHTYPE>
+					<PATH>dputils.h</PATH>
+					<PATHFORMAT>Windows</PATHFORMAT>
+					<FILEKIND>Text</FILEKIND>
+					<FILEFLAGS></FILEFLAGS>
+				</FILE>
+				<FILE>
+					<PATHTYPE>Name</PATHTYPE>
+					<PATH>dxutil.cpp</PATH>
+					<PATHFORMAT>Windows</PATHFORMAT>
+					<FILEKIND>Text</FILEKIND>
+					<FILEFLAGS></FILEFLAGS>
+				</FILE>
+				<FILE>
+					<PATHTYPE>Name</PATHTYPE>
+					<PATH>dxutil.h</PATH>
+					<PATHFORMAT>Windows</PATHFORMAT>
+					<FILEKIND>Text</FILEKIND>
+					<FILEFLAGS></FILEFLAGS>
+				</FILE>
+				<FILE>
+					<PATHTYPE>Name</PATHTYPE>
 					<PATH>resource.h</PATH>
 					<PATHFORMAT>Windows</PATHFORMAT>
 					<FILEKIND>Text</FILEKIND>
@@ -429,6 +457,26 @@
 				<FILEREF>
 					<PATHTYPE>Name</PATHTYPE>
 					<PATH>dpmacros.h</PATH>
+					<PATHFORMAT>Windows</PATHFORMAT>
+				</FILEREF>
+				<FILEREF>
+					<PATHTYPE>Name</PATHTYPE>
+					<PATH>dputils.cpp</PATH>
+					<PATHFORMAT>Windows</PATHFORMAT>
+				</FILEREF>
+				<FILEREF>
+					<PATHTYPE>Name</PATHTYPE>
+					<PATH>dputils.h</PATH>
+					<PATHFORMAT>Windows</PATHFORMAT>
+				</FILEREF>
+				<FILEREF>
+					<PATHTYPE>Name</PATHTYPE>
+					<PATH>dxutil.cpp</PATH>
+					<PATHFORMAT>Windows</PATHFORMAT>
+				</FILEREF>
+				<FILEREF>
+					<PATHTYPE>Name</PATHTYPE>
+					<PATH>dxutil.h</PATH>
 					<PATHFORMAT>Windows</PATHFORMAT>
 				</FILEREF>
 				<FILEREF>
@@ -612,6 +660,30 @@
 				<TARGETNAME>Release</TARGETNAME>
 				<PATHTYPE>Name</PATHTYPE>
 				<PATH>dpmacros.h</PATH>
+				<PATHFORMAT>Windows</PATHFORMAT>
+			</FILEREF>
+			<FILEREF>
+				<TARGETNAME>Release</TARGETNAME>
+				<PATHTYPE>Name</PATHTYPE>
+				<PATH>dputils.cpp</PATH>
+				<PATHFORMAT>Windows</PATHFORMAT>
+			</FILEREF>
+			<FILEREF>
+				<TARGETNAME>Release</TARGETNAME>
+				<PATHTYPE>Name</PATHTYPE>
+				<PATH>dputils.h</PATH>
+				<PATHFORMAT>Windows</PATHFORMAT>
+			</FILEREF>
+			<FILEREF>
+				<TARGETNAME>Release</TARGETNAME>
+				<PATHTYPE>Name</PATHTYPE>
+				<PATH>dxutil.cpp</PATH>
+				<PATHFORMAT>Windows</PATHFORMAT>
+			</FILEREF>
+			<FILEREF>
+				<TARGETNAME>Release</TARGETNAME>
+				<PATHTYPE>Name</PATHTYPE>
+				<PATH>dxutil.h</PATH>
 				<PATHFORMAT>Windows</PATHFORMAT>
 			</FILEREF>
 		</GROUP>

@@ -31,6 +31,5 @@ DEFINE_GUID(DPCHAT_GUID, 0x5bfdb060, 0x6a4, 0x11d0, 0x9c, 0x4f, 0x0, 0xa0, 0xc9,
 	0x5, 0x42, 0x5e);
 
 // prototypes
-extern void ErrorBox(LPSTR lpszErrorStr, HRESULT hr);
 extern HRESULT ConnectUsingLobby(LPDPLAYINFO lpDPInfo);
 extern HRESULT ConnectUsingDialog(HINSTANCE hInstance, LPDPLAYINFO lpDPInfo);

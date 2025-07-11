@@ -7,6 +7,12 @@
     <ClInclude Include="..\common\dpmacros.h">
       <Filter>common</Filter>
     </ClInclude>
+    <ClInclude Include="..\common\dputils.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dxutil.h">
+      <Filter>common</Filter>
+    </ClInclude>
     <ClInclude Include="source\windows\resource.h">
       <Filter>source\windows</Filter>
     </ClInclude>
@@ -16,15 +22,18 @@
     <ClCompile Include="..\common\dpconnect.cpp">
       <Filter>common</Filter>
     </ClCompile>
+    <ClCompile Include="..\common\dputils.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\dxutil.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
     <ClCompile Include="source\winmain.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ResourceCompile Include="source\windows\winmain.rc">
       <Filter>source\windows</Filter>
     </ResourceCompile>
-    <Image Include="source\windows\directx.ico">
-      <Filter>source\windows</Filter>
-    </Image>
     <Filter Include="common">
       <UniqueIdentifier>16AC5A4C-8BA8-3ACE-B964-F6FA34EC83E4</UniqueIdentifier>
     </Filter>

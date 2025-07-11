@@ -889,8 +889,8 @@ static INT_PTR CALLBACK OverrideDlgProc(
 		SendDlgItemMessage(hDlg, IDC_SP_COMBO, CB_GETLBTEXT,
 			static_cast<WPARAM>(nIndex), (LPARAM)g_strPreferredProvider);
 
-		int nCount, i;
-		nCount = (int)SendDlgItemMessage(hDlg, IDC_SP_COMBO, CB_GETCOUNT, 0, 0);
+		int i;
+		int nCount = (int)SendDlgItemMessage(hDlg, IDC_SP_COMBO, CB_GETCOUNT, 0, 0);
 		for (i = 0; i < nCount; i++) {
 			GUID* pGuid = (LPGUID)SendDlgItemMessage(
 				hDlg, IDC_SP_COMBO, CB_GETITEMDATA, static_cast<WPARAM>(i), 0);

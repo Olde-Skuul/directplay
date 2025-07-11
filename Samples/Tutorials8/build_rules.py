@@ -12,6 +12,8 @@ command line tools to clean, build and generate project files.
 
 from __future__ import absolute_import, print_function, unicode_literals
 
+import os
+
 from makeprojects import ProjectTypes
 
 # Type of the project, default is ProjectTypes.tool
@@ -39,7 +41,8 @@ CLEANME_DEPENDENCIES = [
     "Tut06_HostMigration",
     "Tut07_LobbyLaunch",
     "Tut08_Voice",
-    "Tut09_ClientServer"
+    "Tut09_ClientServer" + os.sep + "Client",
+    "Tut09_ClientServer" + os.sep + "Server",
 ]
 
 ########################################

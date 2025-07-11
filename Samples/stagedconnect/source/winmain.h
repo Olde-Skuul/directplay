@@ -28,7 +28,7 @@
 #endif
 
 // Needed for types
-#include <windows.h>
+#include <Windows.h>
 
 #include <dplay.h>
 
@@ -36,7 +36,7 @@ struct GAMEMSG_GENERIC {
 	DWORD dwType;
 };
 
-extern char g_strAppName[256];
+extern const char g_strAppName[];
 
 // App's guid
 extern GUID g_AppGUID;
@@ -61,8 +61,5 @@ extern HRESULT HandleAppMessages(HWND, GAMEMSG_GENERIC*, DWORD, DPID, DPID);
 extern HRESULT HandleSystemMessages(HWND, DPMSG_GENERIC*, DWORD, DPID, DPID);
 extern HRESULT WaveToAllPlayers();
 extern HRESULT DisplayPlayerWave(HWND hDlg, DPID idFrom);
-extern HRESULT ReadRegKey(
-	HKEY hKey, char* strName, char* strValue, DWORD dwLength, char* strDefault);
-extern HRESULT WriteRegKey(HKEY hKey, char* strName, char* strValue);
 
 #endif

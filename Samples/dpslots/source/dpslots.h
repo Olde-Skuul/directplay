@@ -95,10 +95,6 @@ extern CHAR g_strDatabaseName[MAXSTRLEN];
 //-----------------------------------------------------------------------------
 HRESULT ConnectUsingLobby(DPLAYINFO* pDPInfo);
 HRESULT ConnectUsingDialog(HINSTANCE hInstance, DPLAYINFO* pDPInfo);
-VOID ErrorBox(LPSTR strErrorStr, HRESULT hr);
-VOID CheckDlgItem(HWND hDlg, int nIDDlgItem, BOOL bCheck);
-BOOL DlgItemIsChecked(HWND hDlg, int nIDDlgItem);
-VOID EnableDlgButton(HWND hDlg, int nIDDlgItem, BOOL bEnable);
 
 //-----------------------------------------------------------------------------
 // Client functions

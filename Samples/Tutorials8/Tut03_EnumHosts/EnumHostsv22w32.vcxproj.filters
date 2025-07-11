@@ -1,9 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClInclude Include="..\..\common\dpmacros.h">
+      <Filter>common</Filter>
+    </ClInclude>
     <ClCompile Include="source\EnumHosts.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <Filter Include="common">
+      <UniqueIdentifier>6EC1A45A-55EB-3B2A-AF7B-B9E2478C65C5</UniqueIdentifier>
+    </Filter>
     <Filter Include="source">
       <UniqueIdentifier>7768D681-1EFA-3F47-938F-25F52F013679</UniqueIdentifier>
     </Filter>

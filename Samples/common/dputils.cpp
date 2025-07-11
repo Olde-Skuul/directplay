@@ -136,3 +136,66 @@ HRESULT EnumServiceProviders(IDirectPlay8Peer* pDirectPlay8Peer, HWND hDlg,
 	}
 	return S_OK;
 }
+
+/***************************************
+
+	Create a DirectPlay4 interface
+
+***************************************/
+
+HRESULT CreateDirectPlayInterface(IDirectPlay4A** ppDP)
+{
+	// Create an IDirectPlay interface
+	return CoCreateInstance(CLSID_DirectPlay, NULL, CLSCTX_INPROC_SERVER,
+		IID_IDirectPlay4A, (void**)ppDP);
+}
+
+/***************************************
+
+	Create a DirectPlayLobby3 interface
+
+***************************************/
+
+HRESULT CreateDirectPlayLobbyInterface(IDirectPlayLobby3** ppDPLobby)
+{
+	// Create an IDirectPlayLobby interface
+	return CoCreateInstance(CLSID_DirectPlayLobby, NULL, CLSCTX_INPROC_SERVER,
+		IID_IDirectPlayLobby3A, (void**)ppDPLobby);
+}
+
+/***************************************
+
+	Read a registry key
+
+***************************************/
+
+HRESULT ReadRegKey(HKEY hKey, const char* pName, char* pValue, DWORD dwLength,
+	const char* pDefault)
+{
+	DWORD dwType;
+	LONG bResult = RegQueryValueExA(
+		hKey, pName, 0, &dwType, reinterpret_cast<LPBYTE>(pValue), &dwLength);
+
+	if (bResult != ERROR_SUCCESS) {
+		strcpy(pValue, pDefault);
+	}
+	return S_OK;
+}
+
+/***************************************
+
+	Write a registry key as an ASCII string
+
+***************************************/
+
+HRESULT WriteRegKey(HKEY hKey, const char* pName, const char* pValue)
+{
+	LONG bResult = RegSetValueExA(hKey, pName, 0, REG_SZ,
+		reinterpret_cast<const BYTE*>(pValue),
+		static_cast<DWORD>(strlen(pValue) + 1));
+	if (bResult != ERROR_SUCCESS) {
+		return E_FAIL;
+	}
+
+	return S_OK;
+}

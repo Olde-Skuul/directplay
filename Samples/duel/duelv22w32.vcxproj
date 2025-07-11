@@ -71,6 +71,8 @@
   <ItemGroup>
     <ClInclude Include="..\common\dpconnect.h" />
     <ClInclude Include="..\common\dpmacros.h" />
+    <ClInclude Include="..\common\dputils.h" />
+    <ClInclude Include="..\common\dxutil.h" />
     <ClInclude Include="source\ddutil.h" />
     <ClInclude Include="source\diutil.h" />
     <ClInclude Include="source\dputil.h" />
@@ -83,6 +85,8 @@
     <ClInclude Include="source\windows\resource.h" />
     <ClInclude Include="source\windows\winmain.h" />
     <ClCompile Include="..\common\dpconnect.cpp" />
+    <ClCompile Include="..\common\dputils.cpp" />
+    <ClCompile Include="..\common\dxutil.cpp" />
     <ClCompile Include="source\ddutil.cpp" />
     <ClCompile Include="source\diutil.cpp" />
     <ClCompile Include="source\dputil.cpp" />

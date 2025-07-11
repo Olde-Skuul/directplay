@@ -14,7 +14,9 @@
 #include <cguid.h>
 #include <wtypes.h>
 
+#include "dpdialogs.h"
 #include "dpslots.h"
+#include "dputils.h"
 #include "resource.h"
 #include <dplobby.h> // to init guids
 
@@ -41,14 +43,36 @@ struct CLIENTLOGIN {
 };
 
 //-----------------------------------------------------------------------------
-// Name: CreateDirectPlayInterface()
+// Name: EnumSessionsCallback()
 // Desc:
 //-----------------------------------------------------------------------------
-static HRESULT CreateDirectPlayInterface(LPDIRECTPLAY4A* ppDPlay)
+static BOOL FAR PASCAL EnumSessionsCallback(const DPSESSIONDESC2* pSessionDesc,
+	DWORD* /* pdwTimeOut */, DWORD dwFlags, VOID* pContext)
 {
-	// Create an IDirectPlay interface
-	return CoCreateInstance(CLSID_DirectPlay, NULL, CLSCTX_INPROC_SERVER,
-		IID_IDirectPlay4A, (VOID**)ppDPlay);
+	HWND hWnd = (HWND)pContext;
+
+	// See if last session has been enumerated
+	if (dwFlags & DPESC_TIMEDOUT) {
+		return FALSE;
+	}
+
+	// Store session name in list
+	LRESULT iIndex = SendDlgItemMessageA(hWnd, IDC_SESSIONLIST, LB_ADDSTRING, 0,
+		(LPARAM)pSessionDesc->lpszSessionNameA);
+
+	if (iIndex != LB_ERR) {
+
+		// Make space for session instance guid
+		GUID* pGuid = (GUID*)GlobalAllocPtr(GHND, sizeof(GUID));
+		if (pGuid != NULL) {
+
+			// Store pointer to guid in list
+			*pGuid = pSessionDesc->guidInstance;
+			SendDlgItemMessageA(hWnd, IDC_SESSIONLIST, LB_SETITEMDATA,
+				(WPARAM)iIndex, (LPARAM)pGuid);
+		}
+	}
+	return TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -84,159 +108,12 @@ static BOOL FAR PASCAL DirectPlayEnumConnectionsCallback(
 }
 
 //-----------------------------------------------------------------------------
-// Name: DeleteConnectionList()
-// Desc:
-//-----------------------------------------------------------------------------
-static VOID DeleteConnectionList(HWND hWnd)
-{
-	// Destroy the GUID's stored with each service provider name
-	WPARAM i = 0;
-	for (;;) {
-		// Get data pointer stored with item
-		LONG pData = SendDlgItemMessageA(
-			hWnd, IDC_SPCOMBO, CB_GETITEMDATA, (WPARAM)i, 0);
-		if (pData == CB_ERR) {
-			break;
-		}
-
-		if (pData != 0) {
-			GlobalFreePtr((VOID*)pData);
-		}
-
-		i += 1;
-	}
-
-	// Delete all items in combo box
-	SendDlgItemMessageA(hWnd, IDC_SPCOMBO, CB_RESETCONTENT, 0, 0);
-}
-
-//-----------------------------------------------------------------------------
-// Name: DeleteSessionInstanceList()
-// Desc:
-//-----------------------------------------------------------------------------
-static VOID DeleteSessionInstanceList(HWND hWnd)
-{
-	// Destroy the GUID's stored with each session name
-	WPARAM i = 0;
-	for (;;) {
-		// get data pointer stored with item
-		LONG pData = SendDlgItemMessageA(
-			hWnd, IDC_SESSIONLIST, LB_GETITEMDATA, (WPARAM)i, (LPARAM)0);
-		if (pData == CB_ERR) {
-			break;
-		}
-		if (pData == 0) {
-			continue;
-		}
-
-		GlobalFreePtr((VOID*)pData);
-		i += 1;
-	}
-
-	// Delete all items in list
-	SendDlgItemMessageA(hWnd, IDC_SESSIONLIST, LB_RESETCONTENT, 0, 0);
-}
-
-//-----------------------------------------------------------------------------
-// Name: EnumSessionsCallback()
-// Desc:
-//-----------------------------------------------------------------------------
-static BOOL FAR PASCAL EnumSessionsCallback(const DPSESSIONDESC2* pSessionDesc,
-	DWORD* /* pdwTimeOut */, DWORD dwFlags, VOID* pContext)
-{
-	HWND hWnd = (HWND)pContext;
-
-	// See if last session has been enumerated
-	if (dwFlags & DPESC_TIMEDOUT) {
-		return FALSE;
-	}
-
-	// Store session name in list
-	LONG iIndex = SendDlgItemMessageA(hWnd, IDC_SESSIONLIST, LB_ADDSTRING, 0,
-		(LPARAM)pSessionDesc->lpszSessionNameA);
-	if (iIndex == LB_ERR) {
-		return TRUE;
-	}
-
-	// Make space for session instance guid
-	GUID* pGuid = (GUID*)GlobalAllocPtr(GHND, sizeof(GUID));
-	if (pGuid == NULL) {
-		return TRUE;
-	}
-
-	// Store pointer to guid in list
-	*pGuid = pSessionDesc->guidInstance;
-	SendDlgItemMessageA(
-		hWnd, IDC_SESSIONLIST, LB_SETITEMDATA, (WPARAM)iIndex, (LPARAM)pGuid);
-
-	return TRUE;
-}
-
-//-----------------------------------------------------------------------------
-// Name: GetSessionInstanceGuid()
-// Desc:
-//-----------------------------------------------------------------------------
-static HRESULT GetSessionInstanceGuid(HWND hWnd, GUID* pguidSessionInstance)
-{
-	// get guid for session
-	LONG iIndex =
-		SendDlgItemMessageA(hWnd, IDC_SESSIONLIST, LB_GETCURSEL, 0, 0);
-	if (iIndex == LB_ERR) {
-		return DPERR_GENERIC;
-	}
-
-	iIndex = SendDlgItemMessageA(
-		hWnd, IDC_SESSIONLIST, LB_GETITEMDATA, (WPARAM)iIndex, 0);
-	if ((iIndex == LB_ERR) || (iIndex == 0)) {
-		return DPERR_GENERIC;
-	}
-
-	*pguidSessionInstance = *((GUID*)iIndex);
-	return DP_OK;
-}
-
-//-----------------------------------------------------------------------------
-// Name: SelectSessionInstance()
-// Desc:
-//-----------------------------------------------------------------------------
-static VOID SelectSessionInstance(HWND hWnd, GUID* pguidSessionInstance)
-{
-	// Loop over the GUID's stored with each session name
-	// to find the one that matches what was passed in
-	WPARAM i = 0;
-	WPARAM iIndex = 0;
-	for (;;) {
-		// Get data pointer stored with item
-		LONG pData = SendDlgItemMessageA(
-			hWnd, IDC_SESSIONLIST, LB_GETITEMDATA, (WPARAM)i, 0);
-		if (pData == CB_ERR) {
-			break;
-		}
-
-		if (pData == 0) {
-			continue;
-		}
-
-		// Guid matches
-		if (IsEqualGUID(*pguidSessionInstance, *((GUID*)pData))) {
-			iIndex = i;
-			break;
-		}
-
-		i += 1;
-	}
-
-	// Select this item
-	SendDlgItemMessageA(hWnd, IDC_SESSIONLIST, LB_SETCURSEL, (WPARAM)iIndex, 0);
-}
-//-----------------------------------------------------------------------------
 // Name: EnumSessions()
 // Desc:
 //-----------------------------------------------------------------------------
 static HRESULT EnumSessions(HWND hWnd, LPDIRECTPLAY4A pDPlay)
 {
 	DPSESSIONDESC2 sessionDesc;
-	GUID guidSessionInstance;
 
 	// Check for valid interface
 	if (pDPlay == NULL) {
@@ -244,11 +121,12 @@ static HRESULT EnumSessions(HWND hWnd, LPDIRECTPLAY4A pDPlay)
 	}
 
 	// Get guid of currently selected session
-	guidSessionInstance = GUID_NULL;
-	HRESULT hr = GetSessionInstanceGuid(hWnd, &guidSessionInstance);
+	GUID guidSessionInstance = GUID_NULL;
+	HRESULT hr =
+		GetSessionInstanceGuid(hWnd, &guidSessionInstance, IDC_SESSIONLIST);
 
 	// Delete existing session list
-	DeleteSessionInstanceList(hWnd);
+	DeleteSessionInstanceList(hWnd, IDC_SESSIONLIST);
 
 	// Add sessions to session list
 	ZeroMemory(&sessionDesc, sizeof(DPSESSIONDESC2));
@@ -259,10 +137,11 @@ static HRESULT EnumSessions(HWND hWnd, LPDIRECTPLAY4A pDPlay)
 		DPENUMSESSIONS_AVAILABLE | DPENUMSESSIONS_ASYNC);
 
 	// Select the session that was previously selected
-	SelectSessionInstance(hWnd, &guidSessionInstance);
+	SelectSessionInstance(hWnd, &guidSessionInstance, IDC_SESSIONLIST);
 
 	// Hilite "Join" button only if there are sessions to join
-	LONG iIndex = SendDlgItemMessageA(hWnd, IDC_SESSIONLIST, LB_GETCOUNT, 0, 0);
+	LRESULT iIndex =
+		SendDlgItemMessageA(hWnd, IDC_SESSIONLIST, LB_GETCOUNT, 0, 0);
 
 	EnableDlgButton(hWnd, IDC_JOINBUTTON, (iIndex > 0) ? TRUE : FALSE);
 
@@ -278,7 +157,7 @@ static HRESULT DestroyDirectPlayInterface(HWND hWnd, LPDIRECTPLAY4A pDPlay)
 		return DP_OK;
 	}
 
-	DeleteSessionInstanceList(hWnd);
+	DeleteSessionInstanceList(hWnd, IDC_SESSIONLIST);
 	EnableDlgButton(hWnd, IDC_JOINBUTTON, FALSE);
 
 	return static_cast<HRESULT>(pDPlay->Release());
@@ -386,10 +265,8 @@ static BOOL GetServerConfig(HWND hWnd, SERVERCONFIG* pServerConfig)
 //-----------------------------------------------------------------------------
 static HRESULT GetConnection(HWND hWnd, VOID** ppConnection)
 {
-	LONG iIndex;
-
 	// get index of the item currently selected in the combobox
-	iIndex = SendDlgItemMessageA(hWnd, IDC_SPCOMBO, CB_GETCURSEL, 0, 0);
+	LRESULT iIndex = SendDlgItemMessageA(hWnd, IDC_SPCOMBO, CB_GETCURSEL, 0, 0);
 	if (iIndex == CB_ERR) {
 		return DPERR_GENERIC;
 	}
@@ -479,7 +356,6 @@ static HRESULT HostSession(
 static HRESULT GetSessionDesc(
 	LPDIRECTPLAY4A pDPlay, DPSESSIONDESC2** ppSessionDesc)
 {
-	DPSESSIONDESC2* pSessionDesc = NULL;
 	DWORD dwSessionDescSize;
 
 	// Get size of session desc
@@ -487,7 +363,8 @@ static HRESULT GetSessionDesc(
 	if (hr == DPERR_BUFFERTOOSMALL) {
 
 		// Make room for it
-		pSessionDesc = (DPSESSIONDESC2*)GlobalAllocPtr(GHND, dwSessionDescSize);
+		DPSESSIONDESC2* pSessionDesc =
+			(DPSESSIONDESC2*)GlobalAllocPtr(GHND, dwSessionDescSize);
 		if (pSessionDesc == NULL) {
 			hr = DPERR_OUTOFMEMORY;
 		} else {
@@ -502,9 +379,10 @@ static HRESULT GetSessionDesc(
 				return S_OK;
 			}
 		}
-	}
-	if (pSessionDesc) {
-		GlobalFreePtr(pSessionDesc);
+
+		if (pSessionDesc) {
+			GlobalFreePtr(pSessionDesc);
+		}
 	}
 	return hr;
 }
@@ -694,7 +572,6 @@ static BOOL CALLBACK ConnectWndProc(
 	SERVERCONFIG serverConfig;
 	CLIENTLOGIN clientLogin;
 	VOID* pConnection = NULL;
-	DWORD dwNameSize;
 	HRESULT hr = 0;
 
 	switch (uMsg) {
@@ -728,8 +605,8 @@ static BOOL CALLBACK ConnectWndProc(
 
 	case WM_DESTROY:
 		// delete information stored along with the lists
-		DeleteConnectionList(hWnd);
-		DeleteSessionInstanceList(hWnd);
+		DeleteConnectionList(hWnd, IDC_SPCOMBO);
+		DeleteSessionInstanceList(hWnd, IDC_SESSIONLIST);
 		break;
 
 	case WM_TIMER:
@@ -845,14 +722,15 @@ static BOOL CALLBACK ConnectWndProc(
 				idTimer = 0;
 			}
 			// Get guid of selected session instance
-			hr = GetSessionInstanceGuid(hWnd, &guidSessionInstance);
+			hr = GetSessionInstanceGuid(
+				hWnd, &guidSessionInstance, IDC_SESSIONLIST);
 			if (SUCCEEDED(hr)) {
 
 				// Get server configuration from user
 				ZeroMemory(&clientLogin, sizeof(CLIENTLOGIN));
 
 				// Use user name for player name
-				dwNameSize = MAXSTRLEN;
+				DWORD dwNameSize = MAXSTRLEN;
 				GetUserNameA(clientLogin.strPlayerName, &dwNameSize);
 
 				// Join this session

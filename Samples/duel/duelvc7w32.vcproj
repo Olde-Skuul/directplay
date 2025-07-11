@@ -13,8 +13,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release_LTCG|Win32"
-			OutputDirectory="bin\"
-			IntermediateDirectory="temp\duelvc7w32ltc\"
+			OutputDirectory="$(ProjectDir)bin\"
+			IntermediateDirectory="$(ProjectDir)temp\duelvc7w32ltc\"
 			ConfigurationType="1"
 			WholeProgramOptimization="TRUE">
 			<Tool
@@ -26,7 +26,6 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				EnableFiberSafeOptimizations="TRUE"
-				WholeProgramOptimization="TRUE"
 				OptimizeForProcessor="3"
 				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="..\common;source;source\windows;..\..\Include"
@@ -48,7 +47,6 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="Kernel32.lib Gdi32.lib Shell32.lib Ole32.lib User32.lib Advapi32.lib version.lib Ws2_32.lib Comctl32.lib WinMM.lib dsound.lib ddraw.lib dinput8.lib dplayx.lib"
 				OutputFile="&quot;$(OutDir)duelvc7w32ltc.exe&quot;"
-				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\Lib\x86"
 				GenerateDebugInformation="FALSE"
 				ProgramDatabaseFile="&quot;$(OutDir)$(TargetName).pdb&quot;"
@@ -92,79 +90,106 @@
 			<File
 				RelativePath="..\common\dpmacros.h">
 			</File>
+			<File
+				RelativePath="..\common\dputils.cpp">
+			</File>
+			<File
+				RelativePath="..\common\dputils.h">
+			</File>
+			<File
+				RelativePath="..\common\dxutil.cpp">
+			</File>
+			<File
+				RelativePath="..\common\dxutil.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="source">
 			<File
-				RelativePath="source\ddutil.cpp">
+				RelativePath=".\source\ddutil.cpp">
 			</File>
 			<File
-				RelativePath="source\ddutil.h">
+				RelativePath=".\source\ddutil.h">
 			</File>
 			<File
-				RelativePath="source\diutil.cpp">
+				RelativePath=".\source\diutil.cpp">
 			</File>
 			<File
-				RelativePath="source\diutil.h">
+				RelativePath=".\source\diutil.h">
 			</File>
 			<File
-				RelativePath="source\dputil.cpp">
+				RelativePath=".\source\dputil.cpp">
 			</File>
 			<File
-				RelativePath="source\dputil.h">
+				RelativePath=".\source\dputil.h">
 			</File>
 			<File
-				RelativePath="source\dsutil.cpp">
+				RelativePath=".\source\dsutil.cpp">
 			</File>
 			<File
-				RelativePath="source\dsutil.h">
+				RelativePath=".\source\dsutil.h">
 			</File>
 			<File
-				RelativePath="source\duel.cpp">
+				RelativePath=".\source\duel.cpp">
 			</File>
 			<File
-				RelativePath="source\duel.h">
+				RelativePath=".\source\duel.h">
 			</File>
 			<File
-				RelativePath="source\gameproc.cpp">
+				RelativePath=".\source\gameproc.cpp">
 			</File>
 			<File
-				RelativePath="source\gameproc.h">
+				RelativePath=".\source\gameproc.h">
 			</File>
 			<File
-				RelativePath="source\gfx.cpp">
+				RelativePath=".\source\gfx.cpp">
 			</File>
 			<File
-				RelativePath="source\gfx.h">
+				RelativePath=".\source\gfx.h">
 			</File>
 			<File
-				RelativePath="source\lobby.cpp">
+				RelativePath=".\source\lobby.cpp">
 			</File>
 			<File
-				RelativePath="source\lobby.h">
+				RelativePath=".\source\lobby.h">
 			</File>
 			<File
-				RelativePath="source\util.cpp">
+				RelativePath=".\source\util.cpp">
 			</File>
 			<File
-				RelativePath="source\util.h">
+				RelativePath=".\source\util.h">
 			</File>
 			<Filter
 				Name="windows">
 				<File
-					RelativePath="source\windows\duel.ico">
+					RelativePath=".\source\windows\csession.bmp">
 				</File>
 				<File
-					RelativePath="source\windows\duel.rc">
+					RelativePath=".\source\windows\duel.bmp">
 				</File>
 				<File
-					RelativePath="source\windows\resource.h">
+					RelativePath=".\source\windows\duel.ico">
 				</File>
 				<File
-					RelativePath="source\windows\winmain.cpp">
+					RelativePath=".\source\windows\duel.rc">
 				</File>
 				<File
-					RelativePath="source\windows\winmain.h">
+					RelativePath=".\source\windows\osession.bmp">
+				</File>
+				<File
+					RelativePath=".\source\windows\player.bmp">
+				</File>
+				<File
+					RelativePath=".\source\windows\resource.h">
+				</File>
+				<File
+					RelativePath=".\source\windows\splash.bmp">
+				</File>
+				<File
+					RelativePath=".\source\windows\winmain.cpp">
+				</File>
+				<File
+					RelativePath=".\source\windows\winmain.h">
 				</File>
 			</Filter>
 		</Filter>

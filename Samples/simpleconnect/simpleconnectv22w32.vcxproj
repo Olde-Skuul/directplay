@@ -71,12 +71,15 @@
   <ItemGroup>
     <ClInclude Include="..\common\dpconnect.h" />
     <ClInclude Include="..\common\dpmacros.h" />
+    <ClInclude Include="..\common\dputils.h" />
+    <ClInclude Include="..\common\dxutil.h" />
     <ClInclude Include="source\windows\resource.h" />
     <ClInclude Include="source\winmain.h" />
     <ClCompile Include="..\common\dpconnect.cpp" />
+    <ClCompile Include="..\common\dputils.cpp" />
+    <ClCompile Include="..\common\dxutil.cpp" />
     <ClCompile Include="source\winmain.cpp" />
     <ResourceCompile Include="source\windows\winmain.rc" />
-    <Image Include="source\windows\directx.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

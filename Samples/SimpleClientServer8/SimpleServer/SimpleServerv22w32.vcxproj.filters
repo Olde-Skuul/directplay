@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\..\common\dpmacros.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\dxutil.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SimpleCommon\simpleclientserver.h">
+      <Filter>SimpleCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="source\windows\resource.h">
+      <Filter>source\windows</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\common\dxutil.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="source\simpleserver.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ResourceCompile Include="source\windows\SimpleServer.rc">
+      <Filter>source\windows</Filter>
+    </ResourceCompile>
+    <Filter Include="SimpleCommon">
+      <UniqueIdentifier>24600EA9-76E9-3491-95B0-BABA0CD63CFA</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>10F8A33C-710D-3566-B717-C9C5BE1CC622</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>48FEC93B-A5C8-3256-AE0E-DAA2FDF64608</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\windows">
+      <UniqueIdentifier>E943BF68-74BD-33AA-B15F-DC7625023958</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

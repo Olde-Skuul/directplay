@@ -239,6 +239,8 @@ RC=WRC -ad -r -q -d__WATCOM__=1 -i="$(INCLUDE_DIRS)"
 #
 
 OBJS= $(A)/dpconnect.obj &
+	$(A)/dputils.obj &
+	$(A)/dxutil.obj &
 	$(A)/winmain.obj
 
 #

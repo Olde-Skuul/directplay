@@ -265,7 +265,7 @@
 				<SETTING><NAME>MWLinker_X86_symfullpath</NAME><VALUE>false</VALUE></SETTING>
 				<SETTING><NAME>MWLinker_X86_linkdebug</NAME><VALUE>true</VALUE></SETTING>
 				<SETTING><NAME>MWLinker_X86_debuginline</NAME><VALUE>true</VALUE></SETTING>
-				<SETTING><NAME>MWLinker_X86_subsystem</NAME><VALUE>Unknown</VALUE></SETTING>
+				<SETTING><NAME>MWLinker_X86_subsystem</NAME><VALUE>WinGUI</VALUE></SETTING>
 				<SETTING><NAME>MWLinker_X86_entrypointusage</NAME><VALUE>Default</VALUE></SETTING>
 				<SETTING><NAME>MWLinker_X86_entrypoint</NAME><VALUE></VALUE></SETTING>
 				<SETTING><NAME>MWLinker_X86_codefolding</NAME><VALUE>Any</VALUE></SETTING>
@@ -346,6 +346,20 @@
 				</FILE>
 				<FILE>
 					<PATHTYPE>Name</PATHTYPE>
+					<PATH>dputils.cpp</PATH>
+					<PATHFORMAT>Windows</PATHFORMAT>
+					<FILEKIND>Text</FILEKIND>
+					<FILEFLAGS></FILEFLAGS>
+				</FILE>
+				<FILE>
+					<PATHTYPE>Name</PATHTYPE>
+					<PATH>dputils.h</PATH>
+					<PATHFORMAT>Windows</PATHFORMAT>
+					<FILEKIND>Text</FILEKIND>
+					<FILEFLAGS></FILEFLAGS>
+				</FILE>
+				<FILE>
+					<PATHTYPE>Name</PATHTYPE>
 					<PATH>dsutil.cpp</PATH>
 					<PATHFORMAT>Windows</PATHFORMAT>
 					<FILEKIND>Text</FILEKIND>
@@ -375,6 +389,20 @@
 				<FILE>
 					<PATHTYPE>Name</PATHTYPE>
 					<PATH>duel.rc</PATH>
+					<PATHFORMAT>Windows</PATHFORMAT>
+					<FILEKIND>Text</FILEKIND>
+					<FILEFLAGS></FILEFLAGS>
+				</FILE>
+				<FILE>
+					<PATHTYPE>Name</PATHTYPE>
+					<PATH>dxutil.cpp</PATH>
+					<PATHFORMAT>Windows</PATHFORMAT>
+					<FILEKIND>Text</FILEKIND>
+					<FILEFLAGS></FILEFLAGS>
+				</FILE>
+				<FILE>
+					<PATHTYPE>Name</PATHTYPE>
+					<PATH>dxutil.h</PATH>
 					<PATHFORMAT>Windows</PATHFORMAT>
 					<FILEKIND>Text</FILEKIND>
 					<FILEFLAGS></FILEFLAGS>
@@ -610,6 +638,16 @@
 				</FILEREF>
 				<FILEREF>
 					<PATHTYPE>Name</PATHTYPE>
+					<PATH>dputils.cpp</PATH>
+					<PATHFORMAT>Windows</PATHFORMAT>
+				</FILEREF>
+				<FILEREF>
+					<PATHTYPE>Name</PATHTYPE>
+					<PATH>dputils.h</PATH>
+					<PATHFORMAT>Windows</PATHFORMAT>
+				</FILEREF>
+				<FILEREF>
+					<PATHTYPE>Name</PATHTYPE>
 					<PATH>dsutil.cpp</PATH>
 					<PATHFORMAT>Windows</PATHFORMAT>
 				</FILEREF>
@@ -631,6 +669,16 @@
 				<FILEREF>
 					<PATHTYPE>Name</PATHTYPE>
 					<PATH>duel.rc</PATH>
+					<PATHFORMAT>Windows</PATHFORMAT>
+				</FILEREF>
+				<FILEREF>
+					<PATHTYPE>Name</PATHTYPE>
+					<PATH>dxutil.cpp</PATH>
+					<PATHFORMAT>Windows</PATHFORMAT>
+				</FILEREF>
+				<FILEREF>
+					<PATHTYPE>Name</PATHTYPE>
+					<PATH>dxutil.h</PATH>
 					<PATHFORMAT>Windows</PATHFORMAT>
 				</FILEREF>
 				<FILEREF>
@@ -882,6 +930,30 @@
 				<TARGETNAME>Release</TARGETNAME>
 				<PATHTYPE>Name</PATHTYPE>
 				<PATH>dpmacros.h</PATH>
+				<PATHFORMAT>Windows</PATHFORMAT>
+			</FILEREF>
+			<FILEREF>
+				<TARGETNAME>Release</TARGETNAME>
+				<PATHTYPE>Name</PATHTYPE>
+				<PATH>dputils.cpp</PATH>
+				<PATHFORMAT>Windows</PATHFORMAT>
+			</FILEREF>
+			<FILEREF>
+				<TARGETNAME>Release</TARGETNAME>
+				<PATHTYPE>Name</PATHTYPE>
+				<PATH>dputils.h</PATH>
+				<PATHFORMAT>Windows</PATHFORMAT>
+			</FILEREF>
+			<FILEREF>
+				<TARGETNAME>Release</TARGETNAME>
+				<PATHTYPE>Name</PATHTYPE>
+				<PATH>dxutil.cpp</PATH>
+				<PATHFORMAT>Windows</PATHFORMAT>
+			</FILEREF>
+			<FILEREF>
+				<TARGETNAME>Release</TARGETNAME>
+				<PATHTYPE>Name</PATHTYPE>
+				<PATH>dxutil.h</PATH>
 				<PATHFORMAT>Windows</PATHFORMAT>
 			</FILEREF>
 		</GROUP>

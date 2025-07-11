@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\..\common\dpdialogs.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\dpmacros.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\dxutil.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\netclient.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\netclientres.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SimpleCommon\simpleclientserver.h">
+      <Filter>SimpleCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="source\windows\resource.h">
+      <Filter>source\windows</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\common\dpdialogs.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\dxutil.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\netclient.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="source\simpleclient.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ResourceCompile Include="source\windows\SimpleClient.rc">
+      <Filter>source\windows</Filter>
+    </ResourceCompile>
+    <Filter Include="SimpleCommon">
+      <UniqueIdentifier>65AC1B01-654A-3127-817D-A094E7C5F9A8</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>764788EB-23AD-3AFC-A2C4-AEEA73885F15</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>D212F06E-ABFE-387A-BA0A-48D152692200</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\windows">
+      <UniqueIdentifier>88A384AD-6619-38DF-87AA-82EE94B1D3F6</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -11,6 +11,7 @@
 #include <mmsystem.h>
 #include <stdio.h>
 
+#include "dpdialogs.h"
 #include "dpslots.h"
 #include "resource.h"
 
@@ -93,8 +94,8 @@ static BOOL PaintBitmap(HDC hDC, RECT* pDCRect, HBITMAP hDDB, RECT* pDDBRect)
 static BOOL SpinWheels(HWND hWnd, WHEELINFO* pWheels, HBITMAP hWheelBitmap)
 {
 	RECT rectBounds;
-	RECT rectDC, rectSlot;
-	DWORD dwTicks;
+	RECT rectDC;
+	RECT rectSlot;
 
 	if (hWheelBitmap == NULL) {
 		return FALSE;
@@ -115,7 +116,6 @@ static BOOL SpinWheels(HWND hWnd, WHEELINFO* pWheels, HBITMAP hWheelBitmap)
 	DWORD dwHeight = static_cast<DWORD>(pBoundsRect->bottom - pBoundsRect->top);
 	DWORD dwXOffset = (dwWidth - (SLOTWIDTH * NUMWHEELS)) / (NUMWHEELS + 1);
 	DWORD dwYOffset = (dwHeight - SLOTHEIGHT) / 2;
-	DWORD dwYStart;
 
 	SetRect(&rectDC, static_cast<int>(dwXOffset), static_cast<int>(dwYOffset),
 		static_cast<int>(dwXOffset + SLOTWIDTH),
@@ -126,8 +126,8 @@ static BOOL SpinWheels(HWND hWnd, WHEELINFO* pWheels, HBITMAP hWheelBitmap)
 		if (pWheels[i].dwDuration == 0) {
 			dwStoppedCount++;
 		} else {
-			dwTicks = GetTickCount() - pWheels[i].dwStartTicks;
-			dwYStart = (dwTicks * PIXELSPERSECOND) / 1000;
+			DWORD dwTicks = GetTickCount() - pWheels[i].dwStartTicks;
+			DWORD dwYStart = (dwTicks * PIXELSPERSECOND) / 1000;
 			dwYStart %= PIXELSPERREV;
 
 			if (dwTicks >= pWheels[i].dwDuration) {
@@ -448,10 +448,9 @@ VOID ClientApplicationMessage(DPLAYINFO* /* pDPInfo */, DPMSG_GENERIC* pMsg,
 
 	case SPINRESPONSE: {
 		MSG_SPINRESPONSE* pSpin = (MSG_SPINRESPONSE*)pMsg;
-		MSG_SPINRESPONSE* pSpinCopy;
 
 		// make a copy of the message so we can pass it to the wndproc
-		pSpinCopy =
+		MSG_SPINRESPONSE* pSpinCopy =
 			(MSG_SPINRESPONSE*)GlobalAllocPtr(GHND, sizeof(MSG_SPINRESPONSE));
 		if (pSpinCopy == NULL) {
 			break;

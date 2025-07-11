@@ -24,11 +24,10 @@ HRESULT ConnectUsingLobby(DPLAYINFO* pDPInfo)
 	DWORD dwSize;
 	BOOL bIsHost;
 	DWORD dwPlayerFlags;
-	HRESULT hr;
 
 	// Get an ANSI DirectPlay lobby interface
-	hr = CoCreateInstance(CLSID_DirectPlayLobby, NULL, CLSCTX_INPROC_SERVER,
-		IID_IDirectPlayLobby3A, (VOID**)&pDPLobby);
+	HRESULT hr = CoCreateInstance(CLSID_DirectPlayLobby, NULL,
+		CLSCTX_INPROC_SERVER, IID_IDirectPlayLobby3A, (VOID**)&pDPLobby);
 	if (SUCCEEDED(hr)) {
 
 		// Get connection settings from the lobby

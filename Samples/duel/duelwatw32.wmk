@@ -242,8 +242,10 @@ OBJS= $(A)/ddutil.obj &
 	$(A)/diutil.obj &
 	$(A)/dpconnect.obj &
 	$(A)/dputil.obj &
+	$(A)/dputils.obj &
 	$(A)/dsutil.obj &
 	$(A)/duel.obj &
+	$(A)/dxutil.obj &
 	$(A)/gameproc.obj &
 	$(A)/gfx.obj &
 	$(A)/lobby.obj &

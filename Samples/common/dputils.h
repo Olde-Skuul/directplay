@@ -18,12 +18,18 @@
 #endif
 
 #include <Windows.h>
-
+#include <dplay.h>
 #include <dplay8.h>
+#include <dplobby.h>
 
 extern HRESULT EnumAdapters(IDirectPlay8Peer* pDirectPlay8Peer, HWND hDialog,
 	GUID* pSPGuid, int iDialogItem);
 extern HRESULT EnumServiceProviders(IDirectPlay8Peer* pDirectPlay8Peer,
 	HWND hDialog, int iDialogItem, const TCHAR* pPreferred);
+extern HRESULT CreateDirectPlayInterface(IDirectPlay4A** ppDP);
+extern HRESULT CreateDirectPlayLobbyInterface(IDirectPlayLobby3** ppDPLobby);
+extern HRESULT ReadRegKey(HKEY hKey, const char* pName, char* pValue,
+	DWORD dwLength, const char* pDefault);
+extern HRESULT WriteRegKey(HKEY hKey, const char* pName, const char* pValue);
 
 #endif

@@ -20,6 +20,7 @@
 #include "winmain.h"
 #include "dpconnect.h"
 #include "dpmacros.h"
+#include "dputils.h"
 #include "resource.h"
 #include <stdio.h>
 
@@ -28,7 +29,7 @@
 //-----------------------------------------------------------------------------
 #define DPLAY_SAMPLE_KEY "Software\\Microsoft\\DirectX DirectPlay Samples"
 
-CHAR g_strAppName[256] = "SimpleConnect Greeting Game";
+const char g_strAppName[] = "SimpleConnect Greeting Game";
 
 // This GUID allows DirectPlay to find other instances of the same game on
 // the network.  So it must be unique for every game, and the same for
@@ -259,8 +260,6 @@ BOOL CALLBACK GreetingDlgProc(
 HRESULT OnInitDialog(HWND hDlg)
 {
 	DWORD dwBufferSize;
-	BYTE* pData = NULL;
-	DPSESSIONDESC2* pdpsd;
 	HRESULT hr;
 
 	// Load and set the icon
@@ -276,7 +275,7 @@ HRESULT OnInitDialog(HWND hDlg)
 	g_pDP->GetSessionDesc(NULL, &dwBufferSize);
 
 	// Allocate space for it now that we know the size
-	pData = new BYTE[dwBufferSize];
+	BYTE* pData = new BYTE[dwBufferSize];
 	if (pData == NULL) {
 		return E_OUTOFMEMORY;
 	}
@@ -286,7 +285,7 @@ HRESULT OnInitDialog(HWND hDlg)
 	}
 
 	// Typecast the data to a DPSESSIONDESC2*
-	pdpsd = (DPSESSIONDESC2*)pData;
+	DPSESSIONDESC2* pdpsd = (DPSESSIONDESC2*)pData;
 	g_dwNumberOfActivePlayers = pdpsd->dwCurrentPlayers;
 
 	// Update the dialog box
@@ -313,8 +312,6 @@ VOID DisplayNumberPlayersInGame(HWND hDlg)
 //-----------------------------------------------------------------------------
 HRESULT ProcessDirectPlayMessages(HWND hDlg)
 {
-	DPID idFrom;
-	DPID idTo;
 	HRESULT hr;
 
 	// Read all messages in queue
@@ -323,8 +320,8 @@ HRESULT ProcessDirectPlayMessages(HWND hDlg)
 
 	for (;;) {
 		// See what's out there
-		idFrom = 0;
-		idTo = 0;
+		DPID idFrom = 0;
+		DPID idTo = 0;
 
 		hr = g_pDP->Receive(
 			&idFrom, &idTo, DPRECEIVE_ALL, pvMsgBuffer, &dwMsgBufferSize);
@@ -413,25 +410,25 @@ HRESULT HandleSystemMessages(HWND hDlg, DPMSG_GENERIC* pMsg,
 		PostQuitMessage(DPERR_SESSIONLOST);
 		break;
 
-	case DPSYS_CREATEPLAYERORGROUP:
-		DPMSG_CREATEPLAYERORGROUP* pCreateMsg;
-		pCreateMsg = (DPMSG_CREATEPLAYERORGROUP*)pMsg;
+	case DPSYS_CREATEPLAYERORGROUP: {
+		// DPMSG_CREATEPLAYERORGROUP* pCreateMsg =
+		// (DPMSG_CREATEPLAYERORGROUP*)pMsg;
 
 		// Update the number of active players
 		g_dwNumberOfActivePlayers++;
 
 		DisplayNumberPlayersInGame(hDlg);
-		break;
+	} break;
 
-	case DPSYS_DESTROYPLAYERORGROUP:
-		DPMSG_DESTROYPLAYERORGROUP* pDeleteMsg;
-		pDeleteMsg = (DPMSG_DESTROYPLAYERORGROUP*)pMsg;
+	case DPSYS_DESTROYPLAYERORGROUP: {
+		// DPMSG_DESTROYPLAYERORGROUP* pDeleteMsg =
+		// (DPMSG_DESTROYPLAYERORGROUP*)pMsg;
 
 		// Update the number of active players
 		g_dwNumberOfActivePlayers--;
 
 		DisplayNumberPlayersInGame(hDlg);
-		break;
+	} break;
 	}
 
 	return S_OK;
@@ -469,19 +466,17 @@ HRESULT WaveToAllPlayers()
 //-----------------------------------------------------------------------------
 HRESULT DisplayPlayerWave(HWND hDlg, DPID idFrom)
 {
-	HRESULT hr;
-	BYTE* pData = NULL;
 	DWORD dwBufferSize;
 	CHAR szWaveMessage[MAX_PLAYER_NAME + 50];
 
 	// Get the size of the buffer needed
-	hr = g_pDP->GetPlayerName(idFrom, NULL, &dwBufferSize);
+	HRESULT hr = g_pDP->GetPlayerName(idFrom, NULL, &dwBufferSize);
 	if (hr != DPERR_BUFFERTOOSMALL && FAILED(hr)) {
 		return hr;
 	}
 
 	// Allocate the buffer now that we know the size
-	pData = new BYTE[dwBufferSize];
+	BYTE* pData = new BYTE[dwBufferSize];
 	if (NULL == pData) {
 		return E_OUTOFMEMORY;
 	}
@@ -498,37 +493,6 @@ HRESULT DisplayPlayerWave(HWND hDlg, DPID idFrom)
 	sprintf(szWaveMessage, "%s just waved at you, %s!", pdpname->lpszShortNameA,
 		g_strLocalPlayerName);
 	MessageBoxA(hDlg, szWaveMessage, "The Greeting Game", MB_OK);
-
-	return S_OK;
-}
-
-//-----------------------------------------------------------------------------
-// Name: ReadRegKey()
-// Desc: Read a registry key
-//-----------------------------------------------------------------------------
-HRESULT ReadRegKey(
-	HKEY hKey, char* strName, char* strValue, DWORD dwLength, char* strDefault)
-{
-	DWORD dwType;
-	LONG bResult = RegQueryValueExA(
-		hKey, strName, 0, &dwType, (LPBYTE)strValue, &dwLength);
-	if (bResult != ERROR_SUCCESS) {
-		strcpy(strValue, strDefault);
-	}
-	return S_OK;
-}
-
-//-----------------------------------------------------------------------------
-// Name: WriteRegKey()
-// Desc: Writes a registry key
-//-----------------------------------------------------------------------------
-HRESULT WriteRegKey(HKEY hKey, char* strName, char* strValue)
-{
-	LONG bResult = RegSetValueExA(
-		hKey, strName, 0, REG_SZ, (LPBYTE)strValue, strlen(strValue) + 1);
-	if (bResult != ERROR_SUCCESS) {
-		return E_FAIL;
-	}
 
 	return S_OK;
 }

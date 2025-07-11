@@ -221,17 +221,16 @@ static BOOL QueryAccount(
 static HRESULT GetSecureAccountDesc(
 	DPLAYINFO* pDPInfo, DPID idPlayer, DPACCOUNTDESC** ppAccountDesc)
 {
-	DPACCOUNTDESC* pAccountDesc = NULL;
 	DWORD dwAccountDescSize;
-	HRESULT hr;
 
 	// Get size of account description
-	hr = pDPInfo->pDPlay->GetPlayerAccount(
+	HRESULT hr = pDPInfo->pDPlay->GetPlayerAccount(
 		idPlayer, 0, NULL, &dwAccountDescSize);
 	if (hr == DPERR_BUFFERTOOSMALL) {
 
 		// Make room for it
-		pAccountDesc = (DPACCOUNTDESC*)GlobalAllocPtr(GHND, dwAccountDescSize);
+		DPACCOUNTDESC* pAccountDesc =
+			(DPACCOUNTDESC*)GlobalAllocPtr(GHND, dwAccountDescSize);
 		if (pAccountDesc == NULL) {
 			hr = DPERR_OUTOFMEMORY;
 		} else {
@@ -248,9 +247,10 @@ static HRESULT GetSecureAccountDesc(
 				pAccountDesc = NULL;
 			}
 		}
-	}
-	if (pAccountDesc) {
-		GlobalFreePtr(pAccountDesc);
+
+		if (pAccountDesc) {
+			GlobalFreePtr(pAccountDesc);
+		}
 	}
 	return hr;
 }
@@ -262,7 +262,6 @@ static HRESULT GetSecureAccountDesc(
 static HRESULT GetUnsecureAccountDesc(
 	DPLAYINFO* pDPInfo, DPID idPlayer, DPACCOUNTDESC** ppAccountDesc)
 {
-	DPACCOUNTDESC* pAccountDesc = NULL;
 	DWORD dwAccountDescSize;
 
 	// Get size of player name
@@ -271,7 +270,7 @@ static HRESULT GetUnsecureAccountDesc(
 	if (hr == DPERR_BUFFERTOOSMALL) {
 
 		// Make room for it
-		pAccountDesc = (DPACCOUNTDESC*)GlobalAllocPtr(
+		DPACCOUNTDESC* pAccountDesc = (DPACCOUNTDESC*)GlobalAllocPtr(
 			GHND, sizeof(DPACCOUNTDESC) + dwAccountDescSize);
 		if (pAccountDesc == NULL) {
 			hr = DPERR_OUTOFMEMORY;
@@ -292,9 +291,9 @@ static HRESULT GetUnsecureAccountDesc(
 				pAccountDesc = NULL;
 			}
 		}
-	}
-	if (pAccountDesc) {
-		GlobalFreePtr(pAccountDesc);
+		if (pAccountDesc) {
+			GlobalFreePtr(pAccountDesc);
+		}
 	}
 	return hr;
 }

@@ -18,6 +18,7 @@
 #include "winmain.h"
 #include "dpconnect.h"
 #include "dpmacros.h"
+#include "dputils.h"
 #include "resource.h"
 
 #include <richedit.h>
@@ -43,233 +44,39 @@ HKEY g_hDPlaySampleRegKey = NULL;
 BYTE* g_pvDPMsgBuffer = NULL;
 DWORD g_dwDPMsgBufferSize = 0;
 DWORD g_dwNumberOfActivePlayers;
-CHAR g_strAppName[256] = "DirectPlay Chat Sample";
+const char g_strAppName[] = "DirectPlay Chat Sample";
 
 //-----------------------------------------------------------------------------
-// Name: WinMain()
-// Desc: Entry point for the application.  Since we use a simple dialog for
-//       user interaction we don't need to pump messages.
+// Name: DisplayNumberPlayersInChat()
+// Desc: Displays the number of active players
 //-----------------------------------------------------------------------------
 
-INT APIENTRY WinMain(HINSTANCE hInst, HINSTANCE /* hPrevInst */,
-	LPSTR /* pCmdLine */, INT /* nCmdShow */)
+static VOID DisplayNumberPlayersInChat(HWND hDlg)
 {
-	HRESULT hr;
+	CHAR strNumberPlayers[32];
 
-	// Read information from registry
-	RegCreateKeyExA(HKEY_CURRENT_USER, DPLAY_SAMPLE_KEY, 0, NULL,
-		REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &g_hDPlaySampleRegKey,
-		NULL);
-
-	ReadRegKey(g_hDPlaySampleRegKey, "Player Name", g_strLocalPlayerName,
-		MAX_PLAYER_NAME, "");
-	ReadRegKey(g_hDPlaySampleRegKey, "Session Name", g_strSessionName,
-		MAX_SESSION_NAME, "");
-	ReadRegKey(g_hDPlaySampleRegKey, "Preferred Provider",
-		g_strPreferredProvider, MAX_SESSION_NAME, "");
-
-	g_hDPMessageEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
-
-	if (FAILED(hr = CoInitialize(NULL))) {
-		return FALSE;
-	}
-
-	hr = DoConnectAndGame(hInst);
-	if (SUCCEEDED(hr)) {
-		// Write information to the registry
-		WriteRegKey(g_hDPlaySampleRegKey, "Player Name", g_strLocalPlayerName);
-		WriteRegKey(g_hDPlaySampleRegKey, "Session Name", g_strSessionName);
-		WriteRegKey(
-			g_hDPlaySampleRegKey, "Preferred Provider", g_strPreferredProvider);
-	}
-
-	// Cleanup DirectPlay
-	if (g_pDP) {
-		g_pDP->DestroyPlayer(g_LocalPlayerDPID);
-		g_pDP->Close();
-
-		SAFE_DELETE_ARRAY(g_pDPLConnection);
-		SAFE_RELEASE(g_pDPLobby);
-		SAFE_RELEASE(g_pDP);
-	}
-
-	CoUninitialize();
-
-	CloseHandle(g_hDPlaySampleRegKey);
-	CloseHandle(g_hDPMessageEvent);
-
-	return TRUE;
+	sprintf(strNumberPlayers, "%d", g_dwNumberOfActivePlayers);
+	SetDlgItemTextA(hDlg, IDC_NUM_PLAYERS, strNumberPlayers);
 }
 
 //-----------------------------------------------------------------------------
-// Name: DoConnectAndGame()
-// Desc: Connect to other players using DirectPlay and begin the the game.
+// Name: AddChatStringToListBox()
+// Desc: Adds a string to the list box and ensures it is visible
 //-----------------------------------------------------------------------------
 
-HRESULT DoConnectAndGame(HINSTANCE hInst)
+static VOID AddChatStringToListBox(HWND hDlg, LPSTR strMsgText)
 {
-	INT_PTR nExitCode;
-	HRESULT hr;
-	BOOL bLaunchedByLobby;
-
-	// See if we were launched from a lobby server
-	hr = DPConnect_CheckForLobbyLaunch(&bLaunchedByLobby);
-	if (FAILED(hr)) {
-		if (hr == DPERR_USERCANCEL) {
-			return S_OK;
-		}
-
-		return hr;
+	// Add the message to the local listbox
+	HWND hWndChatBox = GetDlgItem(hDlg, IDC_CHAT_LISTBOX);
+	LRESULT nCount = SendMessageA(hWndChatBox, LB_GETCOUNT, 0, 0);
+	if (nCount > MAX_CHAT_STRINGS) {
+		SendMessageA(hWndChatBox, LB_DELETESTRING, 0, 0);
 	}
 
-	if (!bLaunchedByLobby) {
-		// If not, the first step is to prompt the user about the network
-		// connection and which session they would like to join or
-		// if they want to create a new one.
-		nExitCode = DPConnect_StartDirectPlayConnect(hInst, FALSE);
-
-		// See the above EXITCODE #defines for what nExitCode could be
-		if (nExitCode == EXITCODE_QUIT) {
-			// The user canceled the mutliplayer connect.
-			// The sample will now quit.
-			return E_ABORT;
-		}
-
-		if (nExitCode == EXITCODE_ERROR || g_pDP == NULL) {
-			MessageBoxA(NULL,
-				"Mutliplayer connect failed. "
-				"The sample will now quit.",
-				"DirectPlay Sample", MB_OK | MB_ICONERROR);
-			return E_FAIL;
-		}
-	}
-
-	// The next step is to start the game
-	nExitCode = DoChatClient(hInst);
-
-	if (nExitCode == EXITCODE_ERROR) {
-		MessageBoxA(NULL,
-			"An error occured during the game. "
-			"The sample will now quit.",
-			"DirectPlay Sample", MB_OK | MB_ICONERROR);
-		return E_FAIL;
-	}
-
-	return S_OK;
-}
-
-//-----------------------------------------------------------------------------
-// Name: DoChatClient()
-// Desc: Creates the main game window, and process Windows and DirectPlay
-//       messages
-//-----------------------------------------------------------------------------
-
-int DoChatClient(HINSTANCE hInst)
-{
-	HWND hDlg = NULL;
-	BOOL bDone = FALSE;
-	HRESULT hr;
-	DWORD dwResult;
-	MSG msg;
-
-	int nExitCode = E_FAIL;
-	if (g_pDP == NULL) {
-		return nExitCode; // Sanity check
-	}
-
-	// Display the greeting game dialog box.
-	hDlg =
-		CreateDialogA(hInst, MAKEINTRESOURCE(IDD_MAIN_GAME), NULL, ChatDlgProc);
-
-	while (!bDone) {
-		dwResult = MsgWaitForMultipleObjects(
-			1, &g_hDPMessageEvent, FALSE, INFINITE, QS_ALLEVENTS);
-		switch (dwResult) {
-		case WAIT_OBJECT_0 + 0:
-			// g_hDPMessageEvent is signaled, so there are
-			// DirectPlay messages available
-			if (FAILED(hr = ProcessDirectPlayMessages(hDlg))) {
-				return EXITCODE_ERROR;
-			}
-			break;
-
-		case WAIT_OBJECT_0 + 1:
-			// Windows messages are available
-			while (PeekMessageA(&msg, NULL, 0, 0, PM_REMOVE)) {
-				if (!IsDialogMessageA(hDlg, &msg)) {
-					TranslateMessage(&msg);
-					DispatchMessageA(&msg);
-				}
-
-				if (msg.message == WM_QUIT) {
-					// See the above EXITCODE #defines for
-					// what nExitCode could be
-					nExitCode = (int)msg.wParam;
-
-					EndDialog(hDlg, nExitCode);
-					bDone = TRUE;
-				}
-			}
-			break;
-		}
-	}
-
-	return nExitCode;
-}
-
-//-----------------------------------------------------------------------------
-// Name: ChatDlgProc()
-// Desc: Handles dialog messages
-//-----------------------------------------------------------------------------
-
-INT_PTR CALLBACK ChatDlgProc(
-	HWND hDlg, UINT msg, WPARAM wParam, LPARAM /* lParam */)
-{
-	HRESULT hr;
-
-	switch (msg) {
-	case WM_INITDIALOG: {
-		if (FAILED(hr = OnInitDialog(hDlg))) {
-			PostQuitMessage(EXITCODE_ERROR);
-		}
-	} break;
-
-	case WM_NOTIFY:
-		if (LOWORD(wParam) == IDC_CHAT_EDIT) {
-			EnableWindow(GetDlgItem(hDlg, IDC_SEND), TRUE);
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_CHAT_EDIT:
-			if (HIWORD(wParam) == EN_UPDATE) {
-				BOOL bEnableSend;
-				if (0 == GetWindowTextLength(GetDlgItem(hDlg, IDC_CHAT_EDIT))) {
-					bEnableSend = FALSE;
-				} else {
-					bEnableSend = TRUE;
-				}
-				EnableWindow(GetDlgItem(hDlg, IDC_SEND), bEnableSend);
-			}
-			break;
-
-		case IDC_SEND:
-		case IDC_RETURN:
-			// The enter key was pressed, so send out the chat message
-			if (FAILED(hr = SendChatMessage(hDlg))) {
-				PostQuitMessage(EXITCODE_ERROR);
-			}
-			break;
-
-		case IDCANCEL:
-			PostQuitMessage(EXITCODE_QUIT);
-			return TRUE;
-		}
-		break;
-	}
-
-	return FALSE; // Didn't handle message
+	// Add it, and make sure it is visible
+	LRESULT nIndex =
+		SendMessageA(hWndChatBox, LB_ADDSTRING, 0, (LPARAM)strMsgText);
+	SendMessageA(hWndChatBox, LB_SETTOPINDEX, (WPARAM)nIndex, 0);
 }
 
 //-----------------------------------------------------------------------------
@@ -277,7 +84,7 @@ INT_PTR CALLBACK ChatDlgProc(
 // Desc: Inits the dialog for the greeting game.
 //-----------------------------------------------------------------------------
 
-HRESULT OnInitDialog(HWND hDlg)
+static HRESULT OnInitDialog(HWND hDlg)
 {
 	DWORD dwBufferSize;
 	BYTE* pData = NULL;
@@ -324,144 +131,11 @@ HRESULT OnInitDialog(HWND hDlg)
 }
 
 //-----------------------------------------------------------------------------
-// Name: DisplayNumberPlayersInChat()
-// Desc: Displays the number of active players
-//-----------------------------------------------------------------------------
-
-VOID DisplayNumberPlayersInChat(HWND hDlg)
-{
-	CHAR strNumberPlayers[32];
-
-	sprintf(strNumberPlayers, "%d", g_dwNumberOfActivePlayers);
-	SetDlgItemTextA(hDlg, IDC_NUM_PLAYERS, strNumberPlayers);
-}
-
-//-----------------------------------------------------------------------------
-// Name: ProcessDirectPlayMessages()
-// Desc: Processes for DirectPlay messages
-//-----------------------------------------------------------------------------
-
-HRESULT ProcessDirectPlayMessages(HWND hDlg)
-{
-	DPID idFrom;
-	DPID idTo;
-	BYTE* pvMsgBuffer;
-	DWORD dwMsgBufferSize;
-	HRESULT hr;
-
-	// Read all messages in queue
-	dwMsgBufferSize = g_dwDPMsgBufferSize;
-	pvMsgBuffer = g_pvDPMsgBuffer;
-
-	for (;;) {
-		// See what's out there
-		idFrom = 0;
-		idTo = 0;
-
-		hr = g_pDP->Receive(
-			&idFrom, &idTo, DPRECEIVE_ALL, pvMsgBuffer, &dwMsgBufferSize);
-
-		if (hr == DPERR_BUFFERTOOSMALL) {
-			// The current buffer was too small,
-			// so reallocate it and try again
-			SAFE_DELETE_ARRAY(pvMsgBuffer);
-
-			pvMsgBuffer = new BYTE[dwMsgBufferSize];
-			if (pvMsgBuffer == NULL) {
-				return E_OUTOFMEMORY;
-			}
-
-			// Save new buffer in globals
-			g_pvDPMsgBuffer = pvMsgBuffer;
-			g_dwDPMsgBufferSize = dwMsgBufferSize;
-
-			continue; // Now that the buffer is bigger, try again
-		}
-
-		if (DPERR_NOMESSAGES == hr) {
-			// Exit this forever loop
-			break;
-		}
-
-		if (FAILED(hr)) {
-			return hr;
-		}
-
-		// Handle the messages. If its from DPID_SYSMSG, its a system message,
-		// otherwise its an application message.
-		if (idFrom == DPID_SYSMSG) {
-			hr = HandleSystemMessages(hDlg, (DPMSG_GENERIC*)pvMsgBuffer,
-				dwMsgBufferSize, idFrom, idTo);
-			if (FAILED(hr)) {
-				return hr;
-			}
-		} else {
-			// This very simple client has no application defined DirectPlay
-			// messages.
-			return E_FAIL;
-		}
-	}
-
-	return S_OK;
-}
-
-//-----------------------------------------------------------------------------
-// Name: HandleSystemMessages()
-// Desc: Evaluates system messages and performs appropriate actions
-//-----------------------------------------------------------------------------
-
-HRESULT HandleSystemMessages(HWND hDlg, DPMSG_GENERIC* pMsg,
-	DWORD /* dwMsgSize */, DPID /* idFrom */, DPID /* idTo */)
-{
-	switch (pMsg->dwType) {
-	case DPSYS_CHAT: {
-		DPMSG_CHAT* pChatMsg = (DPMSG_CHAT*)pMsg;
-		DPCHAT* pChatStruct = pChatMsg->lpChat;
-
-		// A chat string came in, so add it to the listbox
-		AddChatStringToListBox(hDlg, pChatStruct->lpszMessageA);
-	} break;
-
-	case DPSYS_SESSIONLOST:
-		// Non-host message.  This message is sent to all players
-		// when the host exits the game.
-		if (g_bHostPlayer) {
-			// Sanity check
-			return E_FAIL;
-		}
-		PostQuitMessage(DPERR_SESSIONLOST);
-		break;
-
-	case DPSYS_CREATEPLAYERORGROUP:
-		DPMSG_CREATEPLAYERORGROUP* pCreateMsg;
-		pCreateMsg = (DPMSG_CREATEPLAYERORGROUP*)pMsg;
-
-		// Update the number of active players
-		g_dwNumberOfActivePlayers++;
-
-		DisplayNumberPlayersInChat(hDlg);
-		break;
-
-	case DPSYS_DESTROYPLAYERORGROUP:
-		DPMSG_DESTROYPLAYERORGROUP* pDeleteMsg;
-		pDeleteMsg = (DPMSG_DESTROYPLAYERORGROUP*)pMsg;
-
-		// Update the number of active players
-		g_dwNumberOfActivePlayers--;
-
-		DisplayNumberPlayersInChat(hDlg);
-		break;
-	}
-
-	return S_OK;
-}
-
-//-----------------------------------------------------------------------------
 // Name: SendChatMessage()
 // Desc: Create chat string based on the editbox and send it to everyone
 //-----------------------------------------------------------------------------
 
-HRESULT SendChatMessage(HWND hDlg)
+static HRESULT SendChatMessage(HWND hDlg)
 {
 	HRESULT hr;
 	DPCHAT dpc;
@@ -519,55 +193,338 @@ HRESULT SendChatMessage(HWND hDlg)
 }
 
 //-----------------------------------------------------------------------------
-// Name: AddChatStringToListBox()
-// Desc: Adds a string to the list box and ensures it is visible
+// Name: ChatDlgProc()
+// Desc: Handles dialog messages
 //-----------------------------------------------------------------------------
 
-VOID AddChatStringToListBox(HWND hDlg, LPSTR strMsgText)
+static INT_PTR CALLBACK ChatDlgProc(
+	HWND hDlg, UINT msg, WPARAM wParam, LPARAM /* lParam */)
 {
-	// Add the message to the local listbox
-	HWND hWndChatBox = GetDlgItem(hDlg, IDC_CHAT_LISTBOX);
-	LRESULT nCount = SendMessageA(hWndChatBox, LB_GETCOUNT, 0, 0);
-	if (nCount > MAX_CHAT_STRINGS) {
-		SendMessageA(hWndChatBox, LB_DELETESTRING, 0, 0);
+	HRESULT hr;
+
+	switch (msg) {
+	case WM_INITDIALOG: {
+		if (FAILED(hr = OnInitDialog(hDlg))) {
+			PostQuitMessage(EXITCODE_ERROR);
+		}
+	} break;
+
+	case WM_NOTIFY:
+		if (LOWORD(wParam) == IDC_CHAT_EDIT) {
+			EnableWindow(GetDlgItem(hDlg, IDC_SEND), TRUE);
+		}
+		break;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_CHAT_EDIT:
+			if (HIWORD(wParam) == EN_UPDATE) {
+				BOOL bEnableSend;
+				if (0 == GetWindowTextLength(GetDlgItem(hDlg, IDC_CHAT_EDIT))) {
+					bEnableSend = FALSE;
+				} else {
+					bEnableSend = TRUE;
+				}
+				EnableWindow(GetDlgItem(hDlg, IDC_SEND), bEnableSend);
+			}
+			break;
+
+		case IDC_SEND:
+		case IDC_RETURN:
+			// The enter key was pressed, so send out the chat message
+			if (FAILED(hr = SendChatMessage(hDlg))) {
+				PostQuitMessage(EXITCODE_ERROR);
+			}
+			break;
+
+		case IDCANCEL:
+			PostQuitMessage(EXITCODE_QUIT);
+			return TRUE;
+		}
+		break;
 	}
 
-	// Add it, and make sure it is visible
-	LRESULT nIndex =
-		SendMessageA(hWndChatBox, LB_ADDSTRING, 0, (LPARAM)strMsgText);
-	SendMessageA(hWndChatBox, LB_SETTOPINDEX, (WPARAM)nIndex, 0);
+	return FALSE; // Didn't handle message
 }
 
 //-----------------------------------------------------------------------------
-// Name: ReadRegKey()
-// Desc: Read a registry key
+// Name: HandleSystemMessages()
+// Desc: Evaluates system messages and performs appropriate actions
 //-----------------------------------------------------------------------------
 
-HRESULT ReadRegKey(
-	HKEY hKey, CHAR* strName, CHAR* strValue, DWORD dwLength, CHAR* strDefault)
+static HRESULT HandleSystemMessages(HWND hDlg, DPMSG_GENERIC* pMsg,
+	DWORD /* dwMsgSize */, DPID /* idFrom */, DPID /* idTo */)
 {
-	DWORD dwType;
-	LONG bResult = RegQueryValueExA(
-		hKey, strName, 0, &dwType, (LPBYTE)strValue, &dwLength);
+	switch (pMsg->dwType) {
+	case DPSYS_CHAT: {
+		DPMSG_CHAT* pChatMsg = (DPMSG_CHAT*)pMsg;
+		DPCHAT* pChatStruct = pChatMsg->lpChat;
 
-	if (bResult != ERROR_SUCCESS) {
-		strcpy(strValue, strDefault);
+		// A chat string came in, so add it to the listbox
+		AddChatStringToListBox(hDlg, pChatStruct->lpszMessageA);
+	} break;
+
+	case DPSYS_SESSIONLOST:
+		// Non-host message.  This message is sent to all players
+		// when the host exits the game.
+		if (g_bHostPlayer) {
+			// Sanity check
+			return E_FAIL;
+		}
+		PostQuitMessage(DPERR_SESSIONLOST);
+		break;
+
+	case DPSYS_CREATEPLAYERORGROUP: {
+		// DPMSG_CREATEPLAYERORGROUP* pCreateMsg =
+		//	(DPMSG_CREATEPLAYERORGROUP*)pMsg;
+
+		// Update the number of active players
+		g_dwNumberOfActivePlayers++;
+
+		DisplayNumberPlayersInChat(hDlg);
+	} break;
+
+	case DPSYS_DESTROYPLAYERORGROUP: {
+		// DPMSG_DESTROYPLAYERORGROUP* pDeleteMsg =
+		//	(DPMSG_DESTROYPLAYERORGROUP*)pMsg;
+
+		// Update the number of active players
+		g_dwNumberOfActivePlayers--;
+
+		DisplayNumberPlayersInChat(hDlg);
+	} break;
 	}
+
 	return S_OK;
 }
 
 //-----------------------------------------------------------------------------
-// Name: WriteRegKey()
-// Desc: Writes a registry key
+// Name: ProcessDirectPlayMessages()
+// Desc: Processes for DirectPlay messages
 //-----------------------------------------------------------------------------
 
-HRESULT WriteRegKey(HKEY hKey, CHAR* strName, CHAR* strValue)
+static HRESULT ProcessDirectPlayMessages(HWND hDlg)
 {
-	LONG bResult = RegSetValueExA(hKey, strName, 0, REG_SZ, (LPBYTE)strValue,
-		(DWORD)strlen(strValue) + 1);
-	if (bResult != ERROR_SUCCESS) {
+	// Read all messages in queue
+	DWORD dwMsgBufferSize = g_dwDPMsgBufferSize;
+	BYTE* pvMsgBuffer = g_pvDPMsgBuffer;
+
+	for (;;) {
+		// See what's out there
+		DPID idFrom = 0;
+		DPID idTo = 0;
+
+		HRESULT hr = g_pDP->Receive(
+			&idFrom, &idTo, DPRECEIVE_ALL, pvMsgBuffer, &dwMsgBufferSize);
+
+		if (hr == DPERR_BUFFERTOOSMALL) {
+			// The current buffer was too small,
+			// so reallocate it and try again
+			SAFE_DELETE_ARRAY(pvMsgBuffer);
+
+			pvMsgBuffer = new BYTE[dwMsgBufferSize];
+			if (pvMsgBuffer == NULL) {
+				return E_OUTOFMEMORY;
+			}
+
+			// Save new buffer in globals
+			g_pvDPMsgBuffer = pvMsgBuffer;
+			g_dwDPMsgBufferSize = dwMsgBufferSize;
+
+			continue; // Now that the buffer is bigger, try again
+		}
+
+		if (DPERR_NOMESSAGES == hr) {
+			// Exit this forever loop
+			break;
+		}
+
+		if (FAILED(hr)) {
+			return hr;
+		}
+
+		// Handle the messages. If its from DPID_SYSMSG, its a system message,
+		// otherwise its an application message.
+		if (idFrom == DPID_SYSMSG) {
+			hr = HandleSystemMessages(hDlg, (DPMSG_GENERIC*)pvMsgBuffer,
+				dwMsgBufferSize, idFrom, idTo);
+			if (FAILED(hr)) {
+				return hr;
+			}
+		} else {
+			// This very simple client has no application defined DirectPlay
+			// messages.
+			return E_FAIL;
+		}
+	}
+
+	return S_OK;
+}
+
+//-----------------------------------------------------------------------------
+// Name: DoChatClient()
+// Desc: Creates the main game window, and process Windows and DirectPlay
+//       messages
+//-----------------------------------------------------------------------------
+
+static int DoChatClient(HINSTANCE hInst)
+{
+	HRESULT hr;
+	MSG msg;
+
+	int nExitCode = E_FAIL;
+	if (g_pDP == NULL) {
+		return nExitCode; // Sanity check
+	}
+
+	// Display the greeting game dialog box.
+	HWND hDlg =
+		CreateDialogA(hInst, MAKEINTRESOURCE(IDD_MAIN_GAME), NULL, ChatDlgProc);
+	BOOL bDone = FALSE;
+	while (!bDone) {
+		DWORD dwResult = MsgWaitForMultipleObjects(
+			1, &g_hDPMessageEvent, FALSE, INFINITE, QS_ALLEVENTS);
+		switch (dwResult) {
+		case WAIT_OBJECT_0 + 0:
+			// g_hDPMessageEvent is signaled, so there are
+			// DirectPlay messages available
+			if (FAILED(hr = ProcessDirectPlayMessages(hDlg))) {
+				return EXITCODE_ERROR;
+			}
+			break;
+
+		case WAIT_OBJECT_0 + 1:
+			// Windows messages are available
+			while (PeekMessageA(&msg, NULL, 0, 0, PM_REMOVE)) {
+				if (!IsDialogMessageA(hDlg, &msg)) {
+					TranslateMessage(&msg);
+					DispatchMessageA(&msg);
+				}
+
+				if (msg.message == WM_QUIT) {
+					// See the above EXITCODE #defines for
+					// what nExitCode could be
+					nExitCode = (int)msg.wParam;
+
+					EndDialog(hDlg, nExitCode);
+					bDone = TRUE;
+				}
+			}
+			break;
+		}
+	}
+
+	return nExitCode;
+}
+
+//-----------------------------------------------------------------------------
+// Name: DoConnectAndGame()
+// Desc: Connect to other players using DirectPlay and begin the the game.
+//-----------------------------------------------------------------------------
+
+static HRESULT DoConnectAndGame(HINSTANCE hInst)
+{
+	INT_PTR nExitCode;
+	BOOL bLaunchedByLobby;
+
+	// See if we were launched from a lobby server
+	HRESULT hr = DPConnect_CheckForLobbyLaunch(&bLaunchedByLobby);
+	if (FAILED(hr)) {
+		if (hr == DPERR_USERCANCEL) {
+			return S_OK;
+		}
+
+		return hr;
+	}
+
+	if (!bLaunchedByLobby) {
+		// If not, the first step is to prompt the user about the network
+		// connection and which session they would like to join or
+		// if they want to create a new one.
+		nExitCode = DPConnect_StartDirectPlayConnect(hInst, FALSE);
+
+		// See the above EXITCODE #defines for what nExitCode could be
+		if (nExitCode == EXITCODE_QUIT) {
+			// The user canceled the mutliplayer connect.
+			// The sample will now quit.
+			return E_ABORT;
+		}
+
+		if (nExitCode == EXITCODE_ERROR || g_pDP == NULL) {
+			MessageBoxA(NULL,
+				"Mutliplayer connect failed. "
+				"The sample will now quit.",
+				"DirectPlay Sample", MB_OK | MB_ICONERROR);
+			return E_FAIL;
+		}
+	}
+
+	// The next step is to start the game
+	nExitCode = DoChatClient(hInst);
+
+	if (nExitCode == EXITCODE_ERROR) {
+		MessageBoxA(NULL,
+			"An error occured during the game. "
+			"The sample will now quit.",
+			"DirectPlay Sample", MB_OK | MB_ICONERROR);
 		return E_FAIL;
 	}
 
 	return S_OK;
+}
+
+//-----------------------------------------------------------------------------
+// Name: WinMain()
+// Desc: Entry point for the application.  Since we use a simple dialog for
+//       user interaction we don't need to pump messages.
+//-----------------------------------------------------------------------------
+
+INT APIENTRY WinMain(HINSTANCE hInst, HINSTANCE /* hPrevInst */,
+	LPSTR /* pCmdLine */, INT /* nCmdShow */)
+{
+	HRESULT hr;
+
+	// Read information from registry
+	RegCreateKeyExA(HKEY_CURRENT_USER, DPLAY_SAMPLE_KEY, 0, NULL,
+		REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &g_hDPlaySampleRegKey,
+		NULL);
+
+	ReadRegKey(g_hDPlaySampleRegKey, "Player Name", g_strLocalPlayerName,
+		MAX_PLAYER_NAME, "");
+	ReadRegKey(g_hDPlaySampleRegKey, "Session Name", g_strSessionName,
+		MAX_SESSION_NAME, "");
+	ReadRegKey(g_hDPlaySampleRegKey, "Preferred Provider",
+		g_strPreferredProvider, MAX_SESSION_NAME, "");
+
+	g_hDPMessageEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
+
+	if (FAILED(hr = CoInitialize(NULL))) {
+		return FALSE;
+	}
+
+	hr = DoConnectAndGame(hInst);
+	if (SUCCEEDED(hr)) {
+		// Write information to the registry
+		WriteRegKey(g_hDPlaySampleRegKey, "Player Name", g_strLocalPlayerName);
+		WriteRegKey(g_hDPlaySampleRegKey, "Session Name", g_strSessionName);
+		WriteRegKey(
+			g_hDPlaySampleRegKey, "Preferred Provider", g_strPreferredProvider);
+	}
+
+	// Cleanup DirectPlay
+	if (g_pDP) {
+		g_pDP->DestroyPlayer(g_LocalPlayerDPID);
+		g_pDP->Close();
+
+		SAFE_DELETE_ARRAY(g_pDPLConnection);
+		SAFE_RELEASE(g_pDPLobby);
+		SAFE_RELEASE(g_pDP);
+	}
+
+	CoUninitialize();
+
+	CloseHandle(g_hDPlaySampleRegKey);
+	CloseHandle(g_hDPMessageEvent);
+
+	return TRUE;
 }

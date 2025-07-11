@@ -122,8 +122,5 @@ extern VOID CleanupApplication();
 extern VOID ShowError(int err);
 extern VOID UpdateTitle();
 extern VOID DoHelp();
-extern HRESULT ReadRegKey(
-	HKEY hKey, char* strName, char* strValue, DWORD dwLength, char* strDefault);
-extern HRESULT WriteRegKey(HKEY hKey, char* strName, char* strValue);
 
 #endif

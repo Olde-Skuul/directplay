@@ -1,0 +1,18 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MazeConsoleClient", "MazeConsoleClientvc7w32.vcproj", "{77A77243-E7AC-39B1-8FF2-AD2F2C281ABF}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Release_LTCG = Release_LTCG
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{77A77243-E7AC-39B1-8FF2-AD2F2C281ABF}.Release_LTCG.ActiveCfg = Release_LTCG|Win32
+		{77A77243-E7AC-39B1-8FF2-AD2F2C281ABF}.Release_LTCG.Build.0 = Release_LTCG|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

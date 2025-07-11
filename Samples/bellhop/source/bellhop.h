@@ -76,5 +76,3 @@ extern HINSTANCE g_hInstance;
 // prototypes
 extern BOOL FAR PASCAL EnumApp(
 	const DPLAPPINFO* pAppInfo, VOID* pContext, DWORD dwFlags);
-extern HRESULT GetComboBoxGuid(HWND hWnd, LONG iDialogItem, GUID* pguidReturn);
-extern VOID ErrorBox(LPSTR strError, HRESULT hr);

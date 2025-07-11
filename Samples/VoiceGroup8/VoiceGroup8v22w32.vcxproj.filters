@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\common\dpmacros.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dxutil.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\netconnect.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\netconnectres.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\netvoice.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="source\windows\resource.h">
+      <Filter>source\windows</Filter>
+    </ClInclude>
+    <ClCompile Include="..\common\dxutil.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\netconnect.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\netvoice.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="source\voicegroup.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ResourceCompile Include="source\windows\voicegroup.rc">
+      <Filter>source\windows</Filter>
+    </ResourceCompile>
+    <Filter Include="common">
+      <UniqueIdentifier>CA97D5BF-8270-3CCC-857C-36E1E53DFBF9</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>8430117A-BEAF-320C-9813-9D0B142A2684</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\windows">
+      <UniqueIdentifier>598D57B5-01C8-3CF5-AB8A-A223C4B4A149</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

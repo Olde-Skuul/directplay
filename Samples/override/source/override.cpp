@@ -10,6 +10,7 @@
 #include <windows.h>
 #include <windowsx.h>
 
+#include "dpdialogs.h"
 #include "resource.h"
 #include <cguid.h>
 #include <dplay.h>
@@ -41,24 +42,36 @@ DEFINE_GUID(OVERRIDE_GUID, 0x126e6180, 0xd307, 0x11d0, 0x9c, 0x4f, 0x0, 0xa0,
 	0xc9, 0x5, 0x42, 0x5e);
 
 //-----------------------------------------------------------------------------
-// Name: EnableDlgButton()
+// Name: EnumSessionsCallback()
 // Desc:
 //-----------------------------------------------------------------------------
-static VOID EnableDlgButton(HWND hDlg, int nIDDlgItem, BOOL bEnable)
+static BOOL FAR PASCAL EnumSessionsCallback(const DPSESSIONDESC2* pSessionDesc,
+	DWORD* /* pdwTimeOut */, DWORD dwFlags, VOID* pContext)
 {
-	EnableWindow(GetDlgItem(hDlg, nIDDlgItem), bEnable);
-}
+	HWND hWnd = (HWND)pContext;
 
-//-----------------------------------------------------------------------------
-// Name: ErrorBox()
-// Desc:
-//-----------------------------------------------------------------------------
-static VOID ErrorBox(LPSTR strError, HRESULT hr)
-{
-	CHAR str[MAXSTRLEN];
+	// See if last session has been enumerated
+	if (dwFlags & DPESC_TIMEDOUT) {
+		return FALSE;
+	}
 
-	sprintf(str, strError, hr);
-	MessageBoxA(NULL, str, "DPLaunch Error", MB_OK);
+	// Store session name in list
+	LRESULT iIndex = SendDlgItemMessageA(hWnd, IDC_SESSIONLIST, LB_ADDSTRING, 0,
+		(LPARAM)pSessionDesc->lpszSessionNameA);
+
+	if (iIndex != LB_ERR) {
+
+		// Make space for session instance guid
+		GUID* pGuid = (GUID*)GlobalAllocPtr(GHND, sizeof(GUID));
+		if (pGuid != NULL) {
+
+			// Store pointer to guid in list
+			*pGuid = pSessionDesc->guidInstance;
+			SendDlgItemMessageA(hWnd, IDC_SESSIONLIST, LB_SETITEMDATA,
+				(WPARAM)iIndex, (LPARAM)pGuid);
+		}
+	}
+	return TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -68,7 +81,7 @@ static VOID ErrorBox(LPSTR strError, HRESULT hr)
 static HRESULT GetServiceProviderGuid(HWND hWnd, GUID* pServiceProviderGUID)
 {
 	// Get guid for service provider
-	LONG iIndex = SendDlgItemMessageA(hWnd, IDC_SPCOMBO, CB_GETCURSEL, 0, 0);
+	LRESULT iIndex = SendDlgItemMessageA(hWnd, IDC_SPCOMBO, CB_GETCURSEL, 0, 0);
 	if (iIndex == CB_ERR) {
 		return DPERR_GENERIC;
 	}
@@ -232,8 +245,9 @@ static HRESULT FillModemComboBox(HWND hWnd, LPDIRECTPLAYLOBBY3A pDPLobby)
 	if (FAILED(hr)) {
 		pDP1->Release();
 		pDP->Release();
-		if (pAddress)
+		if (pAddress) {
 			GlobalFreePtr(pAddress);
+		}
 		return hr;
 	}
 
@@ -351,127 +365,6 @@ static HRESULT InitializeOverrideWindow(
 }
 
 //-----------------------------------------------------------------------------
-// Name:
-// Desc:
-//-----------------------------------------------------------------------------
-static VOID SelectSessionInstance(HWND hWnd, GUID* pSessionInstanceGUID)
-{
-	// Loop over the GUID's stored with each session name
-	// to find the one that matches what was passed in
-	WPARAM i = 0;
-	WPARAM iIndex = 0;
-	for (;;) {
-		// Get data pointer stored with item
-		LONG pData =
-			SendDlgItemMessageA(hWnd, IDC_SESSIONLIST, LB_GETITEMDATA, i, 0);
-		if (pData == CB_ERR) { // error getting data
-			break;
-		}
-
-		if (pData == 0) { // no data to compare to
-			continue;
-		}
-
-		// Guid matches
-		if (IsEqualGUID(*pSessionInstanceGUID, *((GUID*)pData))) {
-			iIndex = i; // store index of this string
-			break;
-		}
-
-		i++;
-	}
-
-	// Select this item
-	SendDlgItemMessageA(hWnd, IDC_SESSIONLIST, LB_SETCURSEL, iIndex, 0);
-}
-
-//-----------------------------------------------------------------------------
-// Name: GetSessionInstanceGuid()
-// Desc:
-//-----------------------------------------------------------------------------
-static HRESULT GetSessionInstanceGuid(HWND hWnd, GUID* pSessionInstanceGUID)
-{
-	// Get guid for session
-	LONG iIndex =
-		SendDlgItemMessageA(hWnd, IDC_SESSIONLIST, LB_GETCURSEL, 0, 0);
-	if (iIndex == LB_ERR) {
-		return DPERR_GENERIC;
-	}
-
-	iIndex = SendDlgItemMessageA(
-		hWnd, IDC_SESSIONLIST, LB_GETITEMDATA, (WPARAM)iIndex, 0);
-	if ((iIndex == LB_ERR) || (iIndex == 0)) {
-		return DPERR_GENERIC;
-	}
-
-	*pSessionInstanceGUID = *((GUID*)iIndex);
-
-	return DP_OK;
-}
-
-//-----------------------------------------------------------------------------
-// Name: EnumSessionsCallback()
-// Desc:
-//-----------------------------------------------------------------------------
-static BOOL FAR PASCAL EnumSessionsCallback(const DPSESSIONDESC2* pSessionDesc,
-	DWORD* /* pdwTimeOut */, DWORD dwFlags, VOID* pContext)
-{
-	HWND hWnd = (HWND)pContext;
-	GUID* pGuid;
-
-	// See if last session has been enumerated
-	if (dwFlags & DPESC_TIMEDOUT) {
-		return FALSE;
-	}
-
-	// Store session name in list
-	LONG iIndex = SendDlgItemMessageA(hWnd, IDC_SESSIONLIST, LB_ADDSTRING, 0,
-		(LPARAM)pSessionDesc->lpszSessionNameA);
-	if (iIndex == LB_ERR) {
-		return TRUE;
-	}
-
-	// Make space for session instance guid
-	pGuid = (GUID*)GlobalAllocPtr(GHND, sizeof(GUID));
-	if (pGuid == NULL) {
-		return TRUE;
-	}
-
-	// Store pointer to guid in list
-	*pGuid = pSessionDesc->guidInstance;
-	SendDlgItemMessageA(
-		hWnd, IDC_SESSIONLIST, LB_SETITEMDATA, (WPARAM)iIndex, (LPARAM)pGuid);
-
-	return TRUE;
-}
-
-//-----------------------------------------------------------------------------
-// Name: DeleteSessionInstanceList()
-// Desc:
-//-----------------------------------------------------------------------------
-static VOID DeleteSessionInstanceList(HWND hWnd)
-{
-	// Destroy the GUID's stored with each session name
-	WPARAM i = 0;
-	for (;;) {
-		// Get data pointer stored with item
-		LONG pData =
-			SendDlgItemMessageA(hWnd, IDC_SESSIONLIST, LB_GETITEMDATA, i, 0);
-		if (pData == CB_ERR) { // error getting data
-			break;
-		}
-
-		if (pData) { // data to delete
-			GlobalFreePtr((VOID*)pData);
-		}
-		i++;
-	}
-
-	// Delete all items in list
-	SendDlgItemMessageA(hWnd, IDC_SESSIONLIST, LB_RESETCONTENT, 0, 0);
-}
-
-//-----------------------------------------------------------------------------
 // Name: SessionsWndProc()
 // Desc:
 //-----------------------------------------------------------------------------
@@ -484,7 +377,7 @@ static BOOL CALLBACK SessionsWndProc(
 	static BOOL bInsideEnumSessions;
 	DPSESSIONDESC2 sessionDesc;
 	GUID guidSessionInstance;
-	LONG iIndex;
+	LRESULT iIndex;
 	HRESULT hr;
 
 	switch (uMsg) {
@@ -505,7 +398,7 @@ static BOOL CALLBACK SessionsWndProc(
 			KillTimer(hWnd, idTimer);
 			idTimer = 0;
 		}
-		DeleteSessionInstanceList(hWnd);
+		DeleteSessionInstanceList(hWnd, IDC_SESSIONLIST);
 		break;
 
 	case WM_TIMER:
@@ -516,10 +409,11 @@ static BOOL CALLBACK SessionsWndProc(
 
 		// Get guid of currently selected session
 		guidSessionInstance = GUID_NULL;
-		hr = GetSessionInstanceGuid(hWnd, &guidSessionInstance);
+		hr =
+			GetSessionInstanceGuid(hWnd, &guidSessionInstance, IDC_SESSIONLIST);
 
 		// Delete existing session list
-		DeleteSessionInstanceList(hWnd);
+		DeleteSessionInstanceList(hWnd, IDC_SESSIONLIST);
 
 		// Enum sessions
 		ZeroMemory(&sessionDesc, sizeof(DPSESSIONDESC2));
@@ -533,7 +427,7 @@ static BOOL CALLBACK SessionsWndProc(
 		bInsideEnumSessions = FALSE;
 
 		// Select the session that was previously selected
-		SelectSessionInstance(hWnd, &guidSessionInstance);
+		SelectSessionInstance(hWnd, &guidSessionInstance, IDC_SESSIONLIST);
 
 		// Hilight "Join" button only if there are sessions to join
 		iIndex = SendDlgItemMessageA(hWnd, IDC_SESSIONLIST, LB_GETCOUNT, 0, 0);
@@ -571,7 +465,8 @@ static BOOL CALLBACK SessionsWndProc(
 		switch (LOWORD(wParam)) {
 		case IDC_JOINSESSIONBUTTON:
 			// Return guid of session to join
-			hr = GetSessionInstanceGuid(hWnd, &pContext->guidInstance);
+			hr = GetSessionInstanceGuid(
+				hWnd, &pContext->guidInstance, IDC_SESSIONLIST);
 			if (SUCCEEDED(hr)) {
 				EndDialog(hWnd, TRUE);
 			}
@@ -776,7 +671,7 @@ static HRESULT DoHostOrJoin(HINSTANCE hInstance, HWND hWnd,
 		statusContext.pDP = pDP;
 		statusContext.guidInstance = GUID_NULL;
 
-		if (!DialogBoxParamA(hInstance, MAKEINTRESOURCE(IDD_SESSIONSDIALOG),
+		if (!DialogBoxParamA(hInstance, MAKEINTRESOURCEA(IDD_SESSIONSDIALOG),
 				hWnd, (DLGPROC)SessionsWndProc, (LPARAM)&statusContext)) {
 			pDP->Release();
 			return DPERR_USERCANCEL;
@@ -814,7 +709,7 @@ static VOID DeleteServiceProviderCombo(HWND hWnd)
 	WPARAM i = 0;
 	for (;;) {
 		// Get data pointer stored with item
-		LONG pData =
+		LRESULT pData =
 			SendDlgItemMessageA(hWnd, IDC_SPCOMBO, CB_GETITEMDATA, i, 0);
 		if (pData == CB_ERR) { // error getting data
 			break;
@@ -952,12 +847,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /* hPrevInstance */,
 	// Initialize COM library
 	HRESULT hr = CoInitialize(NULL);
 	if (FAILED(hr)) {
-		ErrorBox("CoInitialize failed. Error 0x%0X", hr);
+		ErrorBox("CoInitialize failed. Error %s", hr);
 		return 0;
 	}
 
 	int iResult =
-		DialogBoxParamA(hInstance, MAKEINTRESOURCE(IDD_OVERRIDEDIALOG), NULL,
+		DialogBoxParamA(hInstance, MAKEINTRESOURCEA(IDD_OVERRIDEDIALOG), NULL,
 			(DLGPROC)OverrideWndProc, (LPARAM)hInstance);
 
 	// Uninitialize the COM library

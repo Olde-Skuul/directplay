@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\..\common\dpmacros.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\dxutil.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\DummyConnector.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\IDPClient.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\Maze.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\MazeApp.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\MazeClient.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\MazeServer.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\NetAbstract.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\Packets.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\Random.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\SimpleStack.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\StressMazeGuid.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\SyncObjects.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\ThingID.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\Trig.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\d3d8.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\d3d8caps.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\d3d8types.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\d3dx.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\d3dx8.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\d3dx8core.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\d3dx8effect.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\d3dx8math.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\d3dx8mesh.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\d3dx8shape.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\d3dx8tex.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\d3dxcore.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\d3dxerr.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\d3dxmath.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\d3dxshapes.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\d3dxsprite.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\dplay8client.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\dxfile.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\imazegraphics.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ConsoleGraphics.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\windows\resource.h">
+      <Filter>source\windows</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\common\dxutil.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MazeCommon\Maze.cpp">
+      <Filter>MazeCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MazeCommon\MazeApp.cpp">
+      <Filter>MazeCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MazeCommon\MazeClient.cpp">
+      <Filter>MazeCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MazeCommon\MazeServer.cpp">
+      <Filter>MazeCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MazeCommon\dplay8client.cpp">
+      <Filter>MazeCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ConsoleGraphics.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Main.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ResourceCompile Include="source\windows\MazeConsoleClient.rc">
+      <Filter>source\windows</Filter>
+    </ResourceCompile>
+    <Filter Include="MazeCommon">
+      <UniqueIdentifier>A6CA0B2D-705D-3CA6-8920-9F6924AD65BD</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>DBE38DDD-8DA3-3E4D-920E-0A6667ADCC99</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>650FFDB2-DAB3-30E4-A234-421B7F567C19</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\windows">
+      <UniqueIdentifier>D07C321D-AF0C-3A34-98F5-CED8C7AC0122</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\common\dpmacros.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dxutil.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\netconnect.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\netconnectres.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\netvoice.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="source\windows\resource.h">
+      <Filter>source\windows</Filter>
+    </ClInclude>
+    <ClCompile Include="..\common\dxutil.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\netconnect.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\netvoice.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VoicePosition.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ResourceCompile Include="source\windows\voiceposition.rc">
+      <Filter>source\windows</Filter>
+    </ResourceCompile>
+    <Image Include="source\windows\bitmap1.bmp">
+      <Filter>source\windows</Filter>
+    </Image>
+    <Filter Include="common">
+      <UniqueIdentifier>DBC3A247-1B7F-35D7-A06E-8AE006AAB963</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>74442AD9-C73A-3AB8-87D6-6C75C3FB6A38</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\windows">
+      <UniqueIdentifier>66F7C3AC-7BD9-3BC1-9AEE-2AD83F028D62</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

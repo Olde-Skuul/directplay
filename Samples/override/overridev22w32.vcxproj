@@ -45,7 +45,7 @@
       <InlineAssemblyOptimization>true</InlineAssemblyOptimization>
       <MinimalRebuild>false</MinimalRebuild>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalIncludeDirectories>$(ProjectDir)source;$(ProjectDir)source\windows;..\..\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\common;$(ProjectDir)source;$(ProjectDir)source\windows;..\..\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32_LEAN_AND_MEAN;WIN32;IDIRECTPLAY2_OR_GREATER;_CRT_NONSTDC_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
@@ -69,10 +69,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\dpdialogs.h" />
+    <ClInclude Include="..\common\dpmacros.h" />
     <ClInclude Include="source\windows\resource.h" />
+    <ClCompile Include="..\common\dpdialogs.cpp" />
     <ClCompile Include="source\override.cpp" />
     <ResourceCompile Include="source\windows\override.rc" />
-    <Image Include="source\windows\directx.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

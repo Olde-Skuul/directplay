@@ -1,9 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClInclude Include="..\..\common\dpmacros.h">
+      <Filter>common</Filter>
+    </ClInclude>
     <ClCompile Include="source\Connect.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <Filter Include="common">
+      <UniqueIdentifier>5E0D23E4-60C9-3122-8999-0C041DFCD8CB</UniqueIdentifier>
+    </Filter>
     <Filter Include="source">
       <UniqueIdentifier>15351FE0-700A-3D1C-82B0-9B6ECBE17ECF</UniqueIdentifier>
     </Filter>

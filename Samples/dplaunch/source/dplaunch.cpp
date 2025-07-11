@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <wtypes.h>
 
+#include "dpdialogs.h"
 #include "dplay.h"
 #include "dplobby.h"
 #include "resource.h"
@@ -199,30 +200,6 @@ static HRESULT FillModemComboBox(
 }
 
 //-----------------------------------------------------------------------------
-// Name: GetComboBoxGuid()
-// Desc: Returns GUID stored with a combo box item
-//-----------------------------------------------------------------------------
-static HRESULT GetComboBoxGuid(HWND hWnd, LONG iDialogItem, GUID* pReturnGUID)
-{
-	// Get index of selected item
-	LONG iIndex = SendDlgItemMessageA(hWnd, iDialogItem, CB_GETCURSEL, 0, 0);
-	if (iIndex == CB_ERR) {
-		return DPERR_GENERIC;
-	}
-
-	// Get data associated with this item
-	iIndex = SendDlgItemMessageA(
-		hWnd, iDialogItem, CB_GETITEMDATA, (WPARAM)iIndex, 0);
-	if ((iIndex == CB_ERR) || (iIndex == 0)) {
-		return DPERR_GENERIC;
-	}
-
-	// Data is a pointer to a guid
-	*pReturnGUID = *((GUID*)iIndex);
-	return DP_OK;
-}
-
-//-----------------------------------------------------------------------------
 // Name: EnumAddressTypes()
 // Desc: Enumerates the address types supported by the given Service Provider
 //       and returns them in a list.
@@ -252,7 +229,7 @@ static BOOL FAR PASCAL EnumAddressTypes(
 //-----------------------------------------------------------------------------
 static HRESULT UpdateAddressInfo(HWND hWnd, LPDIRECTPLAYLOBBY3A pDPLobby)
 {
-	GUID guidServiceProvider, guidAddressType;
+	GUID guidServiceProvider;
 	ADDRESSTYPELIST addressTypeList;
 
 	// Get guid of currently selected service provider
@@ -284,7 +261,7 @@ static HRESULT UpdateAddressInfo(HWND hWnd, LPDIRECTPLAYLOBBY3A pDPLobby)
 	// Loop over the address types
 	DWORD i;
 	for (i = 0; i < addressTypeList.dwCount; i++) {
-		guidAddressType = addressTypeList.guidAddressTypes[i];
+		GUID guidAddressType = addressTypeList.guidAddressTypes[i];
 
 		if (IsEqualGUID(guidAddressType, DPAID_Phone)) {
 			// Phone number
@@ -413,12 +390,10 @@ static HRESULT CreateAddress(HWND hWnd, LPDIRECTPLAYLOBBY3A pDPLobby,
 {
 	ADDRESSTYPELIST addressTypeList;
 	DPCOMPOUNDADDRESSELEMENT addressElements[1 + ADDRESSTYPEMAX];
-	GUID guidAddressType;
 	CHAR strPhoneNumberString[NAMEMAX];
 	CHAR strModemString[NAMEMAX];
 	CHAR strIPAddressString[NAMEMAX];
 	CHAR strPort[NAMEMAX];
-	VOID* pAddress = NULL;
 	DWORD dwAddressSize = 0;
 
 	// Get the list of address types for this service provider
@@ -439,7 +414,7 @@ static HRESULT CreateAddress(HWND hWnd, LPDIRECTPLAYLOBBY3A pDPLobby,
 	// Loop over the address types
 	DWORD i;
 	for (i = 0; i < addressTypeList.dwCount; i++) {
-		guidAddressType = addressTypeList.guidAddressTypes[i];
+		GUID guidAddressType = addressTypeList.guidAddressTypes[i];
 
 		if (IsEqualGUID(guidAddressType, DPAID_Phone)) {
 			// Add a phone number chunk
@@ -491,7 +466,7 @@ static HRESULT CreateAddress(HWND hWnd, LPDIRECTPLAYLOBBY3A pDPLobby,
 	}
 
 	// Allocate space
-	pAddress = GlobalAllocPtr(GHND, dwAddressSize);
+	VOID* pAddress = GlobalAllocPtr(GHND, dwAddressSize);
 	if (pAddress == NULL) {
 		return DPERR_NOMEMORY;
 	}
@@ -591,8 +566,8 @@ static HRESULT RunApplication(LPDIRECTPLAYLOBBY3A pDPLobby,
 //-----------------------------------------------------------------------------
 static VOID LaunchDirectPlayApplication(HWND hWnd, LPDIRECTPLAYLOBBY3A pDPLobby)
 {
-	GUID guidApplication, guidSession, guidServiceProvider;
-	LPSTR pPlayerName, pSessionName;
+	GUID guidApplication, guidServiceProvider;
+	LPSTR pSessionName;
 	LPVOID pAddress = NULL;
 	DWORD dwAddressSize = 0;
 	CHAR strPlayerName[NAMEMAX], strSessionName[NAMEMAX];
@@ -619,11 +594,11 @@ static VOID LaunchDirectPlayApplication(HWND hWnd, LPDIRECTPLAYLOBBY3A pDPLobby)
 	// Ignore the error because pAddress will just be null
 
 	// Get guid of session to create.
-	guidSession = MY_SESSION_GUID;
+	GUID guidSession = MY_SESSION_GUID;
 
 	// Get name of our player
 	GetDlgItemTextA(hWnd, IDC_PLAYEREDIT, strPlayerName, NAMEMAX);
-	pPlayerName = strPlayerName;
+	LPSTR pPlayerName = strPlayerName;
 
 	// Get host vs. join flag
 	LRESULT iHost = SendDlgItemMessageA(hWnd, IDC_HOSTRADIO, BM_GETCHECK, 0, 0);
@@ -659,165 +634,6 @@ static VOID LaunchDirectPlayApplication(HWND hWnd, LPDIRECTPLAYLOBBY3A pDPLobby)
 	if (pAddress) {
 		GlobalFreePtr(pAddress);
 	}
-}
-
-//-----------------------------------------------------------------------------
-// Name: GetDirectPlayErrStr()
-// Desc:
-//-----------------------------------------------------------------------------
-static const CHAR* GetDirectPlayErrStr(HRESULT hr)
-{
-	switch (hr) {
-	case DP_OK:
-		return "DP_OK";
-	case DPERR_ALREADYINITIALIZED:
-		return "DPERR_ALREADYINITIALIZED";
-	case DPERR_ACCESSDENIED:
-		return "DPERR_ACCESSDENIED";
-	case DPERR_ACTIVEPLAYERS:
-		return "DPERR_ACTIVEPLAYERS";
-	case DPERR_BUFFERTOOSMALL:
-		return "DPERR_BUFFERTOOSMALL";
-	case DPERR_CANTADDPLAYER:
-		return "DPERR_CANTADDPLAYER";
-	case DPERR_CANTCREATEGROUP:
-		return "DPERR_CANTCREATEGROUP";
-	case DPERR_CANTCREATEPLAYER:
-		return "DPERR_CANTCREATEPLAYER";
-	case DPERR_CANTCREATESESSION:
-		return "DPERR_CANTCREATESESSION";
-	case DPERR_CAPSNOTAVAILABLEYET:
-		return "DPERR_CAPSNOTAVAILABLEYET";
-	case DPERR_EXCEPTION:
-		return "DPERR_EXCEPTION";
-	case DPERR_GENERIC:
-		return "DPERR_GENERIC";
-	case DPERR_INVALIDFLAGS:
-		return "DPERR_INVALIDFLAGS";
-	case DPERR_INVALIDOBJECT:
-		return "DPERR_INVALIDOBJECT";
-		//	case DPERR_INVALIDPARAM: return "DPERR_INVALIDPARAM";	 dup value
-	case DPERR_INVALIDPARAMS:
-		return "DPERR_INVALIDPARAMS";
-	case DPERR_INVALIDPLAYER:
-		return "DPERR_INVALIDPLAYER";
-	case DPERR_INVALIDGROUP:
-		return "DPERR_INVALIDGROUP";
-	case DPERR_NOCAPS:
-		return "DPERR_NOCAPS";
-	case DPERR_NOCONNECTION:
-		return "DPERR_NOCONNECTION";
-		//	case DPERR_NOMEMORY: return "DPERR_NOMEMORY";		dup value
-	case DPERR_OUTOFMEMORY:
-		return "DPERR_OUTOFMEMORY";
-	case DPERR_NOMESSAGES:
-		return "DPERR_NOMESSAGES";
-	case DPERR_NONAMESERVERFOUND:
-		return "DPERR_NONAMESERVERFOUND";
-	case DPERR_NOPLAYERS:
-		return "DPERR_NOPLAYERS";
-	case DPERR_NOSESSIONS:
-		return "DPERR_NOSESSIONS";
-	case DPERR_PENDING:
-		return "DPERR_PENDING";
-	case DPERR_SENDTOOBIG:
-		return "DPERR_SENDTOOBIG";
-	case DPERR_TIMEOUT:
-		return "DPERR_TIMEOUT";
-	case DPERR_UNAVAILABLE:
-		return "DPERR_UNAVAILABLE";
-	case DPERR_UNSUPPORTED:
-		return "DPERR_UNSUPPORTED";
-	case DPERR_BUSY:
-		return "DPERR_BUSY";
-	case DPERR_USERCANCEL:
-		return "DPERR_USERCANCEL";
-	case DPERR_NOINTERFACE:
-		return "DPERR_NOINTERFACE";
-	case DPERR_CANNOTCREATESERVER:
-		return "DPERR_CANNOTCREATESERVER";
-	case DPERR_PLAYERLOST:
-		return "DPERR_PLAYERLOST";
-	case DPERR_SESSIONLOST:
-		return "DPERR_SESSIONLOST";
-	case DPERR_UNINITIALIZED:
-		return "DPERR_UNINITIALIZED";
-	case DPERR_NONEWPLAYERS:
-		return "DPERR_NONEWPLAYERS";
-	case DPERR_INVALIDPASSWORD:
-		return "DPERR_INVALIDPASSWORD";
-	case DPERR_CONNECTING:
-		return "DPERR_CONNECTING";
-	case DPERR_CONNECTIONLOST:
-		return "DPERR_CONNECTIONLOST";
-	case DPERR_UNKNOWNMESSAGE:
-		return "DPERR_UNKNOWNMESSAGE";
-	case DPERR_CANCELFAILED:
-		return "DPERR_CANCELFAILED";
-	case DPERR_INVALIDPRIORITY:
-		return "DPERR_INVALIDPRIORITY";
-	case DPERR_NOTHANDLED:
-		return "DPERR_NOTHANDLED";
-	case DPERR_CANCELLED:
-		return "DPERR_CANCELLED";
-	case DPERR_ABORTED:
-		return "DPERR_ABORTED";
-	case DPERR_BUFFERTOOLARGE:
-		return "DPERR_BUFFERTOOLARGE";
-	case DPERR_CANTCREATEPROCESS:
-		return "DPERR_CANTCREATEPROCESS";
-	case DPERR_APPNOTSTARTED:
-		return "DPERR_APPNOTSTARTED";
-	case DPERR_INVALIDINTERFACE:
-		return "DPERR_INVALIDINTERFACE";
-	case DPERR_NOSERVICEPROVIDER:
-		return "DPERR_NOSERVICEPROVIDER";
-	case DPERR_UNKNOWNAPPLICATION:
-		return "DPERR_UNKNOWNAPPLICATION";
-	case DPERR_NOTLOBBIED:
-		return "DPERR_NOTLOBBIED";
-	case DPERR_SERVICEPROVIDERLOADED:
-		return "DPERR_SERVICEPROVIDERLOADED";
-	case DPERR_ALREADYREGISTERED:
-		return "DPERR_ALREADYREGISTERED";
-	case DPERR_NOTREGISTERED:
-		return "DPERR_NOTREGISTERED";
-	case DPERR_AUTHENTICATIONFAILED:
-		return "DPERR_AUTHENTICATIONFAILED";
-	case DPERR_CANTLOADSSPI:
-		return "DPERR_CANTLOADSSPI";
-	case DPERR_ENCRYPTIONFAILED:
-		return "DPERR_ENCRYPTIONFAILED";
-	case DPERR_SIGNFAILED:
-		return "DPERR_SIGNFAILED";
-	case DPERR_CANTLOADSECURITYPACKAGE:
-		return "DPERR_CANTLOADSECURITYPACKAGE";
-	case DPERR_ENCRYPTIONNOTSUPPORTED:
-		return "DPERR_ENCRYPTIONNOTSUPPORTED";
-	case DPERR_CANTLOADCAPI:
-		return "DPERR_CANTLOADCAPI";
-	case DPERR_NOTLOGGEDIN:
-		return "DPERR_NOTLOGGEDIN";
-	case DPERR_LOGONDENIED:
-		return "DPERR_LOGONDENIED";
-	}
-
-	// For errors not in the list, return HRESULT string
-	static CHAR strTemp[16];
-	sprintf(strTemp, "0x%08X", hr);
-	return strTemp;
-}
-
-//-----------------------------------------------------------------------------
-// Name: ErrorBox()
-// Desc:
-//-----------------------------------------------------------------------------
-static VOID ErrorBox(LPSTR strError, HRESULT hr)
-{
-	CHAR str[MAXSTRLEN];
-
-	sprintf(str, strError, GetDirectPlayErrStr(hr));
-	MessageBoxA(NULL, str, "DPLaunch Error", MB_OK);
 }
 
 //-----------------------------------------------------------------------------

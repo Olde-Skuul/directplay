@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\common\dpmacros.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dxutil.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\netconnect.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\netconnectres.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="source\windows\resource.h">
+      <Filter>source\windows</Filter>
+    </ClInclude>
+    <ClCompile Include="..\common\dxutil.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\netconnect.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="source\chatpeer.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ResourceCompile Include="source\windows\chatpeer.rc">
+      <Filter>source\windows</Filter>
+    </ResourceCompile>
+    <Filter Include="common">
+      <UniqueIdentifier>25753E98-8951-356A-B0B7-B09740746DEF</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>628FDA06-29E5-3B2D-97CD-953D3F388344</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\windows">
+      <UniqueIdentifier>29C9B1FA-0745-37AD-9B7B-8D8EB4318D25</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

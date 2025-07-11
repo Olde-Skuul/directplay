@@ -1,12 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClInclude Include="..\common\dpdialogs.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dpmacros.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dputils.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dxutil.h">
+      <Filter>common</Filter>
+    </ClInclude>
     <ClInclude Include="source\dpslots.h">
       <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="source\windows\resource.h">
       <Filter>source\windows</Filter>
     </ClInclude>
+    <ClCompile Include="..\common\dpdialogs.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\dputils.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\dxutil.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
     <ClCompile Include="source\client.cpp">
       <Filter>source</Filter>
     </ClCompile>
@@ -25,6 +46,9 @@
     <ResourceCompile Include="source\windows\dpslots.rc">
       <Filter>source\windows</Filter>
     </ResourceCompile>
+    <Filter Include="common">
+      <UniqueIdentifier>E42AB665-8D1C-3F7B-833E-8049F03C925C</UniqueIdentifier>
+    </Filter>
     <Filter Include="source">
       <UniqueIdentifier>2F220864-339B-3D24-BDC5-1B982519B3A5</UniqueIdentifier>
     </Filter>

@@ -7,6 +7,12 @@
     <ClInclude Include="..\common\dpmacros.h">
       <Filter>common</Filter>
     </ClInclude>
+    <ClInclude Include="..\common\dputils.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dxutil.h">
+      <Filter>common</Filter>
+    </ClInclude>
     <ClInclude Include="source\ddutil.h">
       <Filter>source</Filter>
     </ClInclude>
@@ -41,6 +47,12 @@
       <Filter>source\windows</Filter>
     </ClInclude>
     <ClCompile Include="..\common\dpconnect.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\dputils.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\dxutil.cpp">
       <Filter>common</Filter>
     </ClCompile>
     <ClCompile Include="source\ddutil.cpp">

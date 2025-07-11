@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\..\common\dpmacros.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\dxutil.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\Maze.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\MazeServer.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\NetAbstract.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\Packets.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\Random.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\SyncObjects.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MazeCommon\Trig.h">
+      <Filter>MazeCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="source\idpserver.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\server.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\windows\resource.h">
+      <Filter>source\windows</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\common\dxutil.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MazeCommon\Maze.cpp">
+      <Filter>MazeCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MazeCommon\MazeServer.cpp">
+      <Filter>MazeCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Main.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\server.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ResourceCompile Include="source\windows\MazeServer.rc">
+      <Filter>source\windows</Filter>
+    </ResourceCompile>
+    <Filter Include="MazeCommon">
+      <UniqueIdentifier>9987692C-E9D4-398B-A55F-6B6A9AF02ADD</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>F465C443-5740-319D-9A40-27BE98965AA6</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>E48A14A0-6FA7-3CC0-AD3E-3D583906E9FB</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\windows">
+      <UniqueIdentifier>1A006986-B259-3252-89A6-8C518B49A76D</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

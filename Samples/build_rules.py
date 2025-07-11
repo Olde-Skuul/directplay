@@ -42,15 +42,28 @@ CLEANME_PROCESS_PROJECT_FILES = False
 # this folder. Overrides DEPENDENCIES
 # Clean all the samples
 CLEANME_DEPENDENCIES = [
+    "AddressOverride8",
     "bellhop",
     "chatconnect",
+    "ChatPeer8",
+    "DataRelay8",
     "dpchat",
     "dplaunch",
     "dpslots",
     "duel",
+    "LobbyClient8",
+    "Maze8",
     "override",
+    "SimpleClientServer8",
     "simpleconnect",
-    "stagedconnect"
+    "SimplePeer8",
+    "stagedconnect",
+    "StagedPeer8",
+    "Tutorials8",
+    "VoiceClientServer8",
+    "VoiceConnect8",
+    "VoiceGroup8",
+    "VoicePosition8",
 ]
 
 # Create windows projects for Watcom, VS 2022, and Codewarrior
@@ -69,25 +82,25 @@ MAKEPROJECTS = (
 # Check if git is around
 _GIT_FOUND = None
 
-# List of projects that use common code
-# _ADD_COMMON = (
-#    "chatconnect",
-#    "duel",
-#    "simpleconnect"
-# )
-
 # Add in dxutil.h and dxutil.cpp for these projects
 _ADD_DXUTIL = (
     "addressoverride8",
+    "bellhop",
+    "chatconnect",
     "chatpeer8",
     "datarelay8",
+    "dpchat",
+    "dpslots",
+    "duel",
     "lobbyclient8",
     "mazeclient",
     "mazeconsoleclient",
     "mazeserver",
     "simpleclient",
     "simpleserver",
+    "simpleconnect",
     "simplepeer8",
+    "stagedconnect",
     "stagedpeer8",
     "voiceclient",
     "voiceserver",
@@ -96,10 +109,23 @@ _ADD_DXUTIL = (
     "voiceposition8"
 )
 
+# Add in dpconnect.cpp
+_ADD_DPCONNECT = (
+    "chatconnect",
+    "duel",
+    "simpleconnect",
+    "stagedconnect"
+)
+
 # Add in dpdialogs.cpp
 _ADD_DPDIALOGS = (
     "addressoverride8",
+    "bellhop",
     "datarelay8",
+    "dpchat",
+    "dplaunch",
+    "dpslots",
+    "override",
     "simpleclient",
     "simplepeer8",
     "stagedpeer8"
@@ -108,7 +134,14 @@ _ADD_DPDIALOGS = (
 # Add in dputils.cpp
 _ADD_DPUTILS = (
     "addressoverride8",
+    "bellhop",
+    "chatconnect",
+    "dpchat",
+    "dpslots",
+    "duel",
     "lobbyclient8",
+    "simpleconnect",
+    "stagedconnect",
 )
 
 # Add in netconnect.h
@@ -254,6 +287,12 @@ def project_settings(project):
         project.source_files_list.extend((
             common_dir + "dxutil.cpp",
             common_dir + "dxutil.h"))
+
+    # Add in dpconnect
+    if project_name in _ADD_DPCONNECT:
+        project.source_files_list.extend((
+            common_dir + "dpconnect.cpp",
+            common_dir + "dpconnect.h"))
 
     # Add in dpdialogs
     if project_name in _ADD_DPDIALOGS:

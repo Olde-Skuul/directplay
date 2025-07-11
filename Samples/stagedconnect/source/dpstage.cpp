@@ -333,8 +333,6 @@ HRESULT DPStage_StageDlgInit(HWND hDlg)
 //-----------------------------------------------------------------------------
 HRESULT DPStage_ProcessDirectPlayMessages(HWND hDlg)
 {
-	DPID idFrom;
-	DPID idTo;
 	HRESULT hr;
 
 	// Read all messages in queue
@@ -343,8 +341,8 @@ HRESULT DPStage_ProcessDirectPlayMessages(HWND hDlg)
 
 	for (;;) {
 		// See what's out there
-		idFrom = 0;
-		idTo = 0;
+		DPID idFrom = 0;
+		DPID idTo = 0;
 
 		hr = g_pDP->Receive(
 			&idFrom, &idTo, DPRECEIVE_ALL, pvMsgBuffer, &dwMsgBufferSize);
@@ -537,8 +535,8 @@ HRESULT DPStage_HandleSystemMessages(HWND hDlg, DPMSG_GENERIC* pMsg,
 	} break;
 
 	case DPSYS_DESTROYPLAYERORGROUP: {
-		DPMSG_DESTROYPLAYERORGROUP* pDeleteMsg;
-		pDeleteMsg = (DPMSG_DESTROYPLAYERORGROUP*)pMsg;
+		DPMSG_DESTROYPLAYERORGROUP* pDeleteMsg =
+			(DPMSG_DESTROYPLAYERORGROUP*)pMsg;
 
 		// If we are the host player, then remove this player from the stage
 		// and tell everyone about it
@@ -570,10 +568,6 @@ HRESULT DPStage_SendChatMessage(HWND hDlg)
 {
 	HRESULT hr;
 	DPCHAT dpc;
-	char* strEditboxBuffer = NULL;
-	char* strChatBuffer = NULL;
-	DWORD dwPlayerNameSize;
-	DWORD dwChatBufferSize;
 
 	// Get length of item text
 	DWORD dwEditboxBufferSize =
@@ -583,15 +577,15 @@ HRESULT DPStage_SendChatMessage(HWND hDlg)
 	}
 
 	// Figure out how much room we need
-	dwPlayerNameSize = strlen(g_strLocalPlayerName) + 3;
-	dwChatBufferSize = dwPlayerNameSize + dwEditboxBufferSize;
+	DWORD dwPlayerNameSize = strlen(g_strLocalPlayerName) + 3;
+	DWORD dwChatBufferSize = dwPlayerNameSize + dwEditboxBufferSize;
 
 	// Make room for it
-	strChatBuffer = new char[dwChatBufferSize + 1];
+	char* strChatBuffer = new char[dwChatBufferSize + 1];
 	if (NULL == strChatBuffer) {
 		return E_OUTOFMEMORY;
 	}
-	strEditboxBuffer = new char[dwEditboxBufferSize + 1];
+	char* strEditboxBuffer = new char[dwEditboxBufferSize + 1];
 	if (NULL == strEditboxBuffer) {
 		return E_OUTOFMEMORY;
 	}
@@ -884,8 +878,6 @@ HRESULT DPStage_RemovePlayerToStage(
 HRESULT DPStage_UpdateSessionDesc()
 {
 	DWORD dwBufferSize;
-	BYTE* pData = NULL;
-	DPSESSIONDESC2* pdpsd;
 	HRESULT hr;
 
 	if (!g_bHostPlayer) {
@@ -895,7 +887,7 @@ HRESULT DPStage_UpdateSessionDesc()
 	// Get the size of the dpsd, and allocate space for it then get it for real
 	g_pDP->GetSessionDesc(NULL, &dwBufferSize);
 
-	pData = new BYTE[dwBufferSize];
+	BYTE* pData = new BYTE[dwBufferSize];
 	if (pData == NULL) {
 		return E_OUTOFMEMORY;
 	}
@@ -905,7 +897,7 @@ HRESULT DPStage_UpdateSessionDesc()
 	}
 
 	// Typecast the data to a DPSESSIONDESC2*
-	pdpsd = (DPSESSIONDESC2*)pData;
+	DPSESSIONDESC2* pdpsd = (DPSESSIONDESC2*)pData;
 
 	// Change the 'max players' to what it should be
 	pdpsd->dwMaxPlayers = g_dwNumberSlotsOpen;

@@ -22,7 +22,7 @@
 // Needed for types
 #include <windows.h>
 
-extern char g_strAppName[256];
+extern const char g_strAppName[];
 
 // Duel's guid
 extern GUID g_AppGUID;

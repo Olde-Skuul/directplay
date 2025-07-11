@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\common\dpdialogs.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dpmacros.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dxutil.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\netconnect.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\netconnectres.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="source\windows\resource.h">
+      <Filter>source\windows</Filter>
+    </ClInclude>
+    <ClCompile Include="..\common\dpdialogs.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\dxutil.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\netconnect.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="source\simplepeer.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ResourceCompile Include="source\windows\simplepeer.rc">
+      <Filter>source\windows</Filter>
+    </ResourceCompile>
+    <Filter Include="common">
+      <UniqueIdentifier>655470F7-1D54-37FB-B5D3-0EC9A4C1B2CC</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>7E600B50-8D87-3F46-8657-8F2690184ED0</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\windows">
+      <UniqueIdentifier>FA20AFE9-5555-3F3B-8CB8-FE03F365CB5B</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

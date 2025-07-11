@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release_LTCG|Win32">
+      <Configuration>Release_LTCG</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>MazeConsoleClient</ProjectName>
+    <ProjectGuid>{6B88B0CA-2C8F-348E-8468-3EC1EE38A31A}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LTCG|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_LTCG|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <TargetName>$(ProjectName)v22w32ltc</TargetName>
+    <IntDir>$(ProjectDir)temp\$(ProjectName)v22w32ltc\</IntDir>
+    <OutDir>$(ProjectDir)bin\</OutDir>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_LTCG|Win32'">
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <OmitFramePointers>true</OmitFramePointers>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <InlineAssemblyOptimization>true</InlineAssemblyOptimization>
+      <MinimalRebuild>false</MinimalRebuild>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\common;$(ProjectDir)..\MazeCommon;$(ProjectDir)source;$(ProjectDir)source\windows;..\..\..\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WIN32_LEAN_AND_MEAN;WIN32;DIRECT3D_VERSION=0x800;IDIRECTPLAY2_OR_GREATER;_CRT_NONSTDC_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <ExceptionHandling>false</ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\..\..\Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Kernel32.lib;Gdi32.lib;Shell32.lib;Ole32.lib;User32.lib;Advapi32.lib;version.lib;Ws2_32.lib;Comctl32.lib;WinMM.lib;dplayx.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\common\dpmacros.h" />
+    <ClInclude Include="..\..\common\dxutil.h" />
+    <ClInclude Include="..\MazeCommon\DummyConnector.h" />
+    <ClInclude Include="..\MazeCommon\IDPClient.h" />
+    <ClInclude Include="..\MazeCommon\Maze.h" />
+    <ClInclude Include="..\MazeCommon\MazeApp.h" />
+    <ClInclude Include="..\MazeCommon\MazeClient.h" />
+    <ClInclude Include="..\MazeCommon\MazeServer.h" />
+    <ClInclude Include="..\MazeCommon\NetAbstract.h" />
+    <ClInclude Include="..\MazeCommon\Packets.h" />
+    <ClInclude Include="..\MazeCommon\Random.h" />
+    <ClInclude Include="..\MazeCommon\SimpleStack.h" />
+    <ClInclude Include="..\MazeCommon\StressMazeGuid.h" />
+    <ClInclude Include="..\MazeCommon\SyncObjects.h" />
+    <ClInclude Include="..\MazeCommon\ThingID.h" />
+    <ClInclude Include="..\MazeCommon\Trig.h" />
+    <ClInclude Include="..\MazeCommon\d3d8.h" />
+    <ClInclude Include="..\MazeCommon\d3d8caps.h" />
+    <ClInclude Include="..\MazeCommon\d3d8types.h" />
+    <ClInclude Include="..\MazeCommon\d3dx.h" />
+    <ClInclude Include="..\MazeCommon\d3dx8.h" />
+    <ClInclude Include="..\MazeCommon\d3dx8core.h" />
+    <ClInclude Include="..\MazeCommon\d3dx8effect.h" />
+    <ClInclude Include="..\MazeCommon\d3dx8math.h" />
+    <ClInclude Include="..\MazeCommon\d3dx8mesh.h" />
+    <ClInclude Include="..\MazeCommon\d3dx8shape.h" />
+    <ClInclude Include="..\MazeCommon\d3dx8tex.h" />
+    <ClInclude Include="..\MazeCommon\d3dxcore.h" />
+    <ClInclude Include="..\MazeCommon\d3dxerr.h" />
+    <ClInclude Include="..\MazeCommon\d3dxmath.h" />
+    <ClInclude Include="..\MazeCommon\d3dxshapes.h" />
+    <ClInclude Include="..\MazeCommon\d3dxsprite.h" />
+    <ClInclude Include="..\MazeCommon\dplay8client.h" />
+    <ClInclude Include="..\MazeCommon\dxfile.h" />
+    <ClInclude Include="..\MazeCommon\imazegraphics.h" />
+    <ClInclude Include="source\ConsoleGraphics.h" />
+    <ClInclude Include="source\windows\resource.h" />
+    <ClCompile Include="..\..\common\dxutil.cpp" />
+    <ClCompile Include="..\MazeCommon\Maze.cpp" />
+    <ClCompile Include="..\MazeCommon\MazeApp.cpp" />
+    <ClCompile Include="..\MazeCommon\MazeClient.cpp" />
+    <ClCompile Include="..\MazeCommon\MazeServer.cpp" />
+    <ClCompile Include="..\MazeCommon\dplay8client.cpp" />
+    <ClCompile Include="source\ConsoleGraphics.cpp" />
+    <ClCompile Include="source\Main.cpp" />
+    <ResourceCompile Include="source\windows\MazeConsoleClient.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

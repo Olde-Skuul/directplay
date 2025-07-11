@@ -14,6 +14,7 @@
 
 #include "diutil.h"
 #include "dputil.h"
+#include "dputils.h"
 #include "gameproc.h"
 #include "gfx.h"
 #include "lobby.h"
@@ -452,36 +453,4 @@ VOID DoHelp()
 	char strHelpMsg[MAX_HELPMSG];
 	LoadStringA(g_hInst, IDS_DUEL_HELP, strHelpMsg, MAX_HELPMSG);
 	MessageBoxA(g_hwndMain, strHelpMsg, "DUEL", MB_OK);
-}
-
-//-----------------------------------------------------------------------------
-// Name: ReadRegKey()
-// Desc: Read a registry key
-//-----------------------------------------------------------------------------
-HRESULT ReadRegKey(
-	HKEY hKey, char* strName, char* strValue, DWORD dwLength, char* strDefault)
-{
-	DWORD dwType;
-
-	LONG bResult = RegQueryValueExA(
-		hKey, strName, 0, &dwType, (LPBYTE)strValue, &dwLength);
-	if (bResult != ERROR_SUCCESS) {
-		strcpy(strValue, strDefault);
-	}
-	return S_OK;
-}
-
-//-----------------------------------------------------------------------------
-// Name: WriteRegKey()
-// Desc: Writes a registry key
-//-----------------------------------------------------------------------------
-HRESULT WriteRegKey(HKEY hKey, char* strName, char* strValue)
-{
-	LONG bResult = RegSetValueExA(
-		hKey, strName, 0, REG_SZ, (LPBYTE)strValue, strlen(strValue) + 1);
-	if (bResult != ERROR_SUCCESS) {
-		return E_FAIL;
-	}
-
-	return S_OK;
 }

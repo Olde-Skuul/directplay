@@ -9,7 +9,7 @@
 #include "winmain.h"
 
 // The name of the sample
-char g_strAppName[256] = "Duel";
+const char g_strAppName[] = "Duel";
 
 // This GUID allows DirectPlay to find other instances of the same game on
 // the network.  So it must be unique for every game, and the same for

@@ -195,6 +195,8 @@ IDB_SLOTSBITMAP         BITMAP  DISCARDABLE     "..\\..\\media\\wheel.bmp"
 IDR_STOPWAVE            WAVE    DISCARDABLE     "..\\..\\media\\ding.wav"
 IDR_WINWAVE             WAVE    DISCARDABLE     "..\\..\\media\\win.wav"
 IDR_LOSEWAVE            WAVE    DISCARDABLE     "..\\..\\media\\lose.wav"
+
+IDI_MAIN                ICON    DISCARDABLE     "..\\common\\directx.ico"
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 

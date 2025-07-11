@@ -1,6 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClInclude Include="..\common\dpdialogs.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dpmacros.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dputils.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dxutil.h">
+      <Filter>common</Filter>
+    </ClInclude>
     <ClInclude Include="source\bellhop.h">
       <Filter>source</Filter>
     </ClInclude>
@@ -16,6 +28,15 @@
     <ClInclude Include="source\windows\resource.h">
       <Filter>source\windows</Filter>
     </ClInclude>
+    <ClCompile Include="..\common\dpdialogs.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\dputils.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\dxutil.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
     <ClCompile Include="source\bellhop.cpp">
       <Filter>source</Filter>
     </ClCompile>
@@ -37,6 +58,9 @@
     <Image Include="source\windows\bitmap1.bmp">
       <Filter>source\windows</Filter>
     </Image>
+    <Filter Include="common">
+      <UniqueIdentifier>FF28683D-56AE-388D-AAFB-5FE698AAF59A</UniqueIdentifier>
+    </Filter>
     <Filter Include="source">
       <UniqueIdentifier>56A6B3D2-6DD3-398A-9F55-FA903D4D2BAF</UniqueIdentifier>
     </Filter>
