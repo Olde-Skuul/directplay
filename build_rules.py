@@ -81,7 +81,7 @@ def library_settings(configuration):
     lib_dir = root_path + os.sep + "Lib" + os.sep
     include_dir = root_path + os.sep + "Include"
 
-    # Check if BURGER_SDKS was uses, and also check if it's not already
+    # Check if BURGER_SDKS was used, and also check if it's not already
     # in the variable list
     if env_var and "BURGER_SDKS" not in configuration.env_variable_list:
         # Add code in the project to test for the existence of BURGER_SDKS
